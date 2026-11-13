@@ -1,0 +1,33 @@
+{
+ "model": "grok-4.7",
+ "output": [
+  {
+   "type": "web_search_call",
+   "id": "ws_9",
+   "status": "completed",
+   "action": {
+    "type": "search",
+    "query": "Loctite 243 Guatemala tienda"
+   }
+  },
+  {
+   "type": "message",
+   "role": "assistant",
+   "content": [
+    {
+     "type": "output_text",
+     "text": "### 1. Dicema\nTiene Loctite 243 de 50 ml en línea.\n\n### 2. Lewonski\nPrecio más bajo publicado.",
+     "annotations": [
+      {
+       "type": "url_citation",
+       "url": "https://www.dicema.com.gt/",
+       "start_index": 0,
+       "end_index": 5,
+       "title": "1"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Dicema en las IAs</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e4e3de;--soft:#f0efea;--accent:#b4232a;--good:#2f7d4f;--warn:#a8650d;--bad:#b4232a}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#1f1f1d;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--soft:#262624;--accent:#e0575e;--good:#5fbf86;--warn:#e0a84c;--bad:#e0575e}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:18px 24px 10px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+h1{font-size:20px;margin:0}h1 span{color:var(--accent)}.sub{color:var(--muted)}
+.top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+nav{display:flex;gap:4px;flex-wrap:wrap;padding:10px 24px;position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+button,.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer;font:inherit;text-decoration:none;display:inline-block}
+button.on,button.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:disabled{opacity:.5;cursor:default}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}.seg button{border:0;border-radius:0}
+main{padding:20px 24px 80px;max-width:1320px}section{display:none}section.on{display:block}
+h2{font-size:17px;margin:0 0 4px}h3{font-size:14px;margin:0 0 8px}p.lead{color:var(--muted);margin:0 0 16px;max-width:860px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.kv{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-top:1px solid var(--line)}.kv:first-of-type{border-top:0}
+.kv b{font-variant-numeric:tabular-nums}.big{font-size:28px;font-weight:600;font-variant-numeric:tabular-nums}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:16px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;font-size:12px;color:var(--muted);white-space:nowrap}
+td.n,th.n{text-align:right}tr.hueco td{background:color-mix(in srgb,var(--bad) 9%,transparent)}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line);margin:1px;background:var(--card)}
+button.pill{padding:2px 9px}
+.pos{color:var(--good);font-weight:600}.si{color:var(--good)}.no{color:var(--muted)}.err{color:var(--warn)}.conf{color:var(--bad);font-weight:600}
+.celda{cursor:pointer;border-radius:4px;padding:1px 3px}.celda:hover{background:var(--soft)}
+input,select,textarea{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+input[type=search]{min-width:240px}textarea{width:100%;min-height:60px}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}label.f>*{color:var(--ink);font-size:14px}
+.bar{height:10px;background:var(--muted);border-radius:3px;display:inline-block;vertical-align:middle;opacity:.55}.bar.hl{background:var(--accent);opacity:1}
+.prog{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin:8px 0}.prog div{height:100%;background:var(--good);width:0}
+pre.log{background:var(--soft);border-radius:8px;padding:10px;max-height:320px;overflow:auto;font-size:12px;margin:0;white-space:pre-wrap}
+.vacio{padding:30px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px}
+.banner{background:color-mix(in srgb,var(--warn) 15%,var(--card));border:1px solid var(--warn);border-radius:8px;padding:8px 12px;margin:0 24px 0}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);max-width:min(860px,calc(100vw - 32px));width:100%;padding:0}
+dialog::backdrop{background:rgba(0,0,0,.4)}.dlg{padding:18px 20px;max-height:80vh;overflow:auto}.dlg pre{white-space:pre-wrap;background:var(--soft);padding:10px;border-radius:8px;font:13px/1.5 inherit}
+.cols{columns:2 260px;column-gap:16px}.chk{display:flex;gap:6px;align-items:flex-start;padding:2px 0;break-inside:avoid}
+@media (max-width:640px){header,nav,main{padding-left:16px;padding-right:16px}.banner{margin:0 16px}nav{flex-wrap:nowrap;overflow-x:auto}nav button{white-space:nowrap}}
+</style></head><body>
+<header><div><h1><span>Dicema</span> en las IAs</h1><div class="sub" id="sub">Cargando…</div></div>
+<div class="top"><span class="sub">Ver:</span><div class="seg" id="met"><button data-m="API" class="on">Por API</button><button data-m="Manual">Medición manual</button></div><a class="btn" href="/salir">Salir</a></div></header>
+<div id="sim"></div>
+<nav id="nav"></nav>
+<main>
+<section id="pulso"><h2>Pulso</h2><p class="lead">Mención en preguntas de categoría (cuando el cliente no nombra a Dicema), primer lugar, posición promedio y mención en preguntas de marca. API y medición manual nunca se mezclan.</p><div id="pulso_c"></div></section>
+<section id="respuestas"><h2>Respuestas</h2><p class="lead">Una corrida, pregunta por pregunta. #n = lugar de Dicema; Sí = la menciona sin lista; No = no aparece; confusión = habla de otra empresa con el mismo nombre. Haz clic en una celda para ver la respuesta completa.</p>
+<div class="ctl"><select id="r_corrida"></select><input type="search" id="r_f" placeholder="Filtrar por ID, marca o texto…"><a class="btn" id="r_csv" href="#">Descargar CSV</a></div><div id="r_c"></div></section>
+<section id="fanouts"><h2>Fan-outs: lo que las IAs buscan antes de contestar</h2><p class="lead">Quien aparece en Google y Bing para estas búsquedas es quien sale citado. Las filas marcadas las repiten 2 o más motores y Dicema nunca aparece: son páginas que faltan o que no posicionan.</p>
+<div class="ctl"><input type="search" id="f_f" placeholder="Filtrar búsquedas…"><span id="f_m"></span><label class="sub"><input type="checkbox" id="f_h"> solo huecos</label></div><div id="f_c"></div></section>
+<section id="competencia"><h2>Competencia</h2><p class="lead">Empresas y sitios más nombrados en preguntas de categoría.</p><div id="c_c"></div></section>
+<section id="brujula"><h2>Brújula de fuentes</h2><p class="lead">Qué sitios leen las IAs cuando sí recomiendan a Dicema y cuando no. Un sitio frecuente sin Dicema es un lugar donde Dicema todavía no está.</p><div id="b_c"></div></section>
+<section id="comparar"><h2>Antes y después</h2><p class="lead">Dos corridas del mismo método lado a lado.</p><div class="ctl"><span class="sub">Antes</span><select id="a_a"></select><span class="sub">Después</span><select id="a_b"></select></div><div id="a_c"></div></section>
+<section id="sala"><h2>Sala de control</h2><p class="lead">Corre preguntas en los motores con clave de API. Cada consulta tiene costo: empieza con pocas preguntas.</p>
+<div class="grid2"><div class="card"><h3>Motores</h3><div id="s_m"></div><p class="sub" id="s_d"></p></div>
+<div class="card"><h3>Opciones</h3><label class="f">Intentos por pregunta<select id="s_r"><option>1</option><option>2</option><option>3</option></select></label><br><label class="f">Nota (opcional)<input id="s_n" placeholder="p. ej. después de fichas Loctite"></label><br>
+<button class="primary" id="s_go">Correr</button> <span class="sub" id="s_cuenta"></span></div></div><br>
+<div class="card"><div class="ctl"><h3 style="margin:0">Preguntas</h3><button class="pill" id="s_all">Todas las activas</button><button class="pill" id="s_none">Ninguna</button><span id="s_marcas"></span><input type="search" id="s_f" placeholder="Filtrar…"></div><div class="cols" id="s_p"></div></div><br>
+<div class="card"><h3>Progreso</h3><div class="prog"><div id="s_bar"></div></div><div class="sub" id="s_est">Sin corridas en curso.</div><br><pre class="log" id="s_log"></pre></div></section>
+<section id="prompts"><h2>Preguntas</h2><p class="lead">Las que corre la medición. Los ID de marca empiezan con M. Las inactivas no entran en la corrida diaria.</p>
+<div class="ctl"><button class="primary" id="p_new">Agregar pregunta</button><input type="search" id="p_f" placeholder="Filtrar…"></div><div id="p_c"></div></section>
+<section id="manual"><h2>Medición manual</h2><p class="lead">Lo que se mide a mano en las apps reales (Copilot, cuentas limpias). Se guarda aparte de las corridas por API.</p>
+<div class="card"><h3>Registrar una respuesta</h3><div class="grid2" id="m_form">
+<label class="f">Fecha<input type="date" id="m_fecha"></label><label class="f">Motor<select id="m_motor"></select></label>
+<label class="f">Pregunta<select id="m_pid"></select></label><label class="f">Intento<input type="number" id="m_int" value="1" min="1" max="9"></label>
+<label class="f">¿Menciona a Dicema?<select id="m_men"><option>Sí</option><option selected>No</option></select></label><label class="f">Posición (si hay lista)<input type="number" id="m_pos" min="1"></label>
+<label class="f">¿Cita dicema.com.gt?<select id="m_cit"><option>Sí</option><option selected>No</option></select></label><label class="f">¿Confunde a Dicema con otra empresa?<select id="m_conf"><option>No</option><option>Sí</option></select></label>
+<label class="f">Competidores (separados por ;)<input id="m_comp"></label><label class="f">Fuentes (separadas por ;)<input id="m_fue"></label>
+<label class="f">Búsquedas visibles (separadas por ;)<input id="m_bus"></label><label class="f">Notas<input id="m_not"></label></div><br>
+<button class="primary" id="m_save">Guardar</button> <span class="sub" id="m_msg"></span></div><br>
+<div class="card"><h3>Importar desde la hoja</h3><p class="sub">CSV con las columnas de la pestaña Registro: Fecha, Motor, ID prompt, Intento, ¿Menciona?, Posición, ¿Cita?, Competidores, Fuentes, Búsquedas, Captura, Notas.</p><input type="file" id="m_csv" accept=".csv,text/csv"> <button id="m_imp">Importar</button> <span class="sub" id="m_impmsg"></span></div><br>
+<div id="m_lista"></div></section>
+</main>
+<dialog id="dlg"><div class="dlg" id="dlg_c"></div><div style="padding:0 20px 16px;text-align:right"><button onclick="dlg.close()">Cerrar</button></div></dialog>
+<script>
+const SIMULAR=__SIMULAR__;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pc=v=>v==null?'—':v+'%';
+const NOM={chatgpt:'ChatGPT',claude:'Claude',gemini:'Gemini',perplexity:'Perplexity',grok:'Grok',copilot:'Copilot'};const N=m=>NOM[m]||m;
+async function api(url,opt={}){const r=await fetch(url,{...opt,headers:{'X-Dicema':'1',...(opt.body&&typeof opt.body==='string'&&!opt.csv?{'Content-Type':'application/json'}:{}),...(opt.headers||{})}});
+ if(r.status===401){location.href='/login';throw new Error('sesión')}const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('Error '+r.status));return j}
+const fecha=s=>(s||'').replace('T',' ').slice(0,16);
+const tabs=[['pulso','Pulso'],['respuestas','Respuestas'],['fanouts','Fan-outs'],['competencia','Competencia'],['brujula','Brújula'],['comparar','Antes y después'],['sala','Sala de control'],['prompts','Preguntas'],['manual','Medición manual']];
+let TAB=(location.hash||'#pulso').slice(1);if(!tabs.some(t=>t[0]===TAB))TAB='pulso';
+let MET='API',R=null,PROMPTS=[],MOTORES=[];
+if(SIMULAR)$('sim').innerHTML='<div class="banner"><b>Modo simulación:</b> las corridas usan respuestas de ejemplo, no las APIs reales.</div>';
+function pintarNav(){$('nav').innerHTML=tabs.map(([k,t])=>`<button data-k="${k}" class="${k===TAB?'on':''}">${t}</button>`).join('');
+ document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===TAB))}
+$('nav').onclick=e=>{const k=e.target.dataset.k;if(!k)return;TAB=k;history.replaceState(null,'','#'+k);pintarNav();mostrar()};
+$('met').onclick=e=>{const m=e.target.dataset.m;if(!m)return;MET=m;document.querySelectorAll('#met button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));cargar()};
+async function cargar(){R=await api('/api/resumen?metodo='+MET);
+ $('sub').textContent=R.vacio?(MET==='API'?'Todavía no hay corridas por API.':'Todavía no hay mediciones manuales.'):`${R.corridas.length} corrida(s) · última: ${fecha(R.corridas[R.corridas.length-1].inicio)}`;
+ const opts=R.vacio?'':R.corridas.slice().reverse().map(c=>`<option value="${c.id}">Corrida ${c.id} · ${fecha(c.inicio)} · ${esc(c.origen||'')}${c.nota?' · '+esc(c.nota):''}</option>`).join('');
+ $('r_corrida').innerHTML=opts;$('a_a').innerHTML=opts;$('a_b').innerHTML=opts;
+ if(!R.vacio&&R.corridas.length>1)$('a_a').selectedIndex=1;mostrar()}
+const vacio=t=>`<div class="vacio">${t}</div>`;
+function mostrar(){({pulso,respuestas,fanouts,competencia,brujula,comparar,sala,prompts:verPrompts,manual}[TAB]||(()=>{}))()}
+const card=(t,m)=>`<div class="card"><h3>${t}</h3><div class="big">${pc(m.mencion_categoria)}</div><div class="sub" style="margin-bottom:6px">mención en categoría (${m.categoria_n} resp.)</div>
+<div class="kv"><span>Primer lugar</span><b>${pc(m.primer_lugar)}</b></div><div class="kv"><span>Posición promedio</span><b>${m.posicion_promedio??'—'}</b></div>
+<div class="kv"><span>Mención en marca</span><b>${pc(m.mencion_marca)}</b></div><div class="kv"><span>Cita dicema.com.gt</span><b>${pc(m.cita_sitio)}</b></div>
+${m.confusiones?`<div class="kv"><span class="conf">Confusiones</span><b class="conf">${m.confusiones}</b></div>`:''}${m.errores?`<div class="kv"><span class="err">Errores</span><b class="err">${m.errores}</b></div>`:''}</div>`;
+function pulso(){if(R.vacio)return $('pulso_c').innerHTML=vacio(MET==='API'?'Corre la primera medición desde la Sala de control.':'Registra o importa mediciones manuales.');
+ const u=R.pulso[R.pulso.length-1];
+ $('pulso_c').innerHTML=`<div class="cards">${card('Todos los motores',u.todos)}${R.motores.filter(m=>u.motores[m]).map(m=>card(N(m),u.motores[m])).join('')}</div>
+ <h3>Mención en categoría por corrida</h3><div class="wrap"><table><tr><th>Corrida</th><th>Fecha</th><th>Origen</th><th class="n">Todos</th>${R.motores.map(m=>`<th class="n">${N(m)}</th>`).join('')}</tr>
+ ${R.pulso.slice().reverse().map(p=>`<tr><td>${p.corrida}</td><td>${fecha(p.inicio)}</td><td>${esc(p.origen||'')}${p.nota?' · '+esc(p.nota):''}</td><td class="n"><b>${pc(p.todos.mencion_categoria)}</b></td>${R.motores.map(m=>`<td class="n">${p.motores[m]?pc(p.motores[m].mencion_categoria):'—'}</td>`).join('')}</tr>`).join('')}</table></div>`}
+const cls=v=>v.startsWith('#')?'pos':v==='Sí'?'si':v==='No'?'no':v==='error'?'err':'conf';
+let MAT=null;
+async function respuestas(){if(R.vacio)return $('r_c').innerHTML=vacio('Sin corridas todavía.');const cid=$('r_corrida').value;$('r_csv').href='/api/exportar?corrida='+cid;
+ if(!MAT||MAT.corrida!=cid)MAT=await api('/api/matriz?corrida='+cid);const q=$('r_f').value.toLowerCase();
+ const ids=Object.keys(MAT.prompts).sort((a,b)=>(a.endsWith('-EN')-b.endsWith('-EN'))||a.localeCompare(b));
+ $('r_c').innerHTML=`<div class="wrap"><table><tr><th>ID</th><th>Pregunta</th>${MAT.motores.map(m=>`<th>${N(m)}</th>`).join('')}</tr>${ids.filter(id=>{const p=MAT.prompts[id];return !q||(id+' '+p.texto+' '+p.marca+' '+p.familia).toLowerCase().includes(q)}).map(id=>{const p=MAT.prompts[id];
+ return `<tr><td>${esc(id)}${p.tipo==='Marca'?' <span class="pill">marca</span>':''}</td><td>${esc(p.texto)}</td>${MAT.motores.map(m=>`<td>${(MAT.celdas[id]?.[m]||[]).map(c=>`<span class="celda ${cls(c.v)}" data-r="${c.id}">${c.v}</span>`).join(' ')||'—'}</td>`).join('')}</tr>`}).join('')}</table></div>`}
+$('r_corrida').onchange=respuestas;$('r_f').oninput=respuestas;
+$('r_c').onclick=async e=>{const id=e.target.dataset.r;if(!id)return;const d=await api('/api/respuesta?id='+id);
+ $('dlg_c').innerHTML=`<h2>${esc(N(d.motor))} · ${esc(d.prompt_id)} · intento ${d.intento}</h2><p class="sub">${esc(d.prompt)}<br>${fecha(d.fecha)} · ${esc(d.modelo||'')}</p>
+ <p>${d.error?`<span class="err">Error: ${esc(d.error)}</span>`:`Menciona a Dicema: <b>${d.menciona?'Sí':'No'}</b>${d.posicion?` · posición <b>#${d.posicion}</b>`:''} · cita el sitio: <b>${d.cita_sitio?'Sí':'No'}</b>${d.posible_confusion?' · <span class="conf">posible confusión con otra empresa</span>':''}`}</p>
+ ${d.busquedas.length?`<h3>Búsquedas internas</h3><p>${d.busquedas.map(b=>`<span class="pill">${esc(b)}</span>`).join(' ')}</p>`:''}
+ ${d.competidores.length?`<h3>Competidores nombrados</h3><p>${d.competidores.map(esc).join(', ')}</p>`:''}
+ ${d.texto?`<h3>Respuesta</h3><pre>${esc(d.texto)}</pre>`:''}${d.notas?`<h3>Notas</h3><p>${esc(d.notas)}</p>`:''}
+ ${d.fuentes.length?`<h3>Fuentes</h3><ul>${d.fuentes.slice(0,40).map(f=>`<li>${f.citada?'<b>citada</b> · ':''}${f.url.startsWith('http')?`<a href="${esc(f.url)}" target="_blank" rel="noopener noreferrer">${esc(f.titulo||f.dominio||f.url)}</a>`:esc(f.url)}</li>`).join('')}</ul>`:''}`;dlg.showModal()};
+let FMOT='';
+function fanouts(){if(R.vacio)return $('f_c').innerHTML=vacio('Sin datos todavía.');
+ $('f_m').innerHTML=['',...R.motores].map(m=>`<button class="pill ${m===FMOT?'on':''}" data-m="${m}">${m?N(m):'Todos'}</button>`).join('');
+ const q=$('f_f').value.toLowerCase(),h=$('f_h').checked;const rows=R.fanouts.filter(f=>(!q||f.b.includes(q))&&(!FMOT||f.motores.includes(FMOT))&&(!h||(f.motores.length>=2&&!f.con)));
+ const n2=R.fanouts.filter(f=>f.motores.length>=2).length,hue=R.fanouts.filter(f=>f.motores.length>=2&&!f.con).length;
+ $('f_c').innerHTML=`<div class="cards"><div class="card"><h3>Búsquedas distintas</h3><div class="big">${R.fanouts.length}</div></div><div class="card"><h3>Las hacen 2 o más motores</h3><div class="big">${n2}</div></div><div class="card"><h3>Huecos</h3><div class="big conf">${hue}</div><div class="sub">2+ motores y nunca traen a Dicema</div></div></div>
+ <div class="wrap"><table><tr><th>Búsqueda interna</th><th class="n">Veces</th><th>Motores</th><th>Preguntas</th><th class="n">Con Dicema</th><th class="n">Cita sitio</th></tr>${rows.slice(0,500).map(f=>`<tr class="${f.motores.length>=2&&!f.con?'hueco':''}"><td>${esc(f.b)}</td><td class="n">${f.veces}</td><td>${f.motores.map(N).join(', ')}</td><td>${f.prompts.slice(0,8).map(esc).join(' ')}${f.prompts.length>8?` <span class="sub">+${f.prompts.length-8}</span>`:''}</td><td class="n">${f.con}</td><td class="n">${f.cita}</td></tr>`).join('')||'<tr><td colspan="6" class="sub">Sin búsquedas para este filtro.</td></tr>'}</table></div>`}
+$('f_m').onclick=e=>{if(e.target.dataset.m===undefined)return;FMOT=e.target.dataset.m;fanouts()};$('f_f').oninput=fanouts;$('f_h').onchange=fanouts;
+const barras=(arr,hl)=>{const mx=Math.max(1,...arr.map(x=>x[1]));return arr.map(([k,v])=>`<div class="kv"><span>${esc(k)}</span><span><span class="bar ${String(k).toLowerCase().includes(hl)?'hl':''}" style="width:${Math.round(140*v/mx)}px"></span> <b>${v}</b></span></div>`).join('')};
+function competencia(){if(R.vacio)return $('c_c').innerHTML=vacio('Sin datos todavía.');
+ $('c_c').innerHTML=`<div class="grid2"><div class="card"><h3>Empresas nombradas</h3>${barras(R.empresas.slice().sort((a,b)=>b[1]-a[1]),'dicema')}</div><div class="card"><h3>Sitios consultados</h3>${barras(R.dominios,'dicema')}</div></div>`}
+function brujula(){if(R.vacio)return $('b_c').innerHTML=vacio('Sin datos todavía.');
+ $('b_c').innerHTML=`<div class="wrap"><table><tr><th>Sitio</th><th class="n">Con Dicema (${R.n_con})</th><th class="n">Sin Dicema (${R.n_sin})</th><th>Lectura</th></tr>${R.brujula.map(b=>{const tc=R.n_con?b.con/R.n_con:0,ts=R.n_sin?b.sin/R.n_sin:0;
+ const l=b.d.includes('dicema')?'propio':tc>ts*1.5?'trae a Dicema':ts>tc*1.5?'deja fuera a Dicema':'neutral';
+ return `<tr><td>${esc(b.d)}</td><td class="n">${b.con}</td><td class="n">${b.sin}</td><td class="${l==='deja fuera a Dicema'?'conf':l==='neutral'?'no':'si'}">${l}</td></tr>`}).join('')}</table></div>`}
+async function comparar(){if(R.vacio||R.corridas.length<2)return $('a_c').innerHTML=vacio('Hacen falta al menos dos corridas del mismo método.');
+ const c=await api(`/api/comparar?a=${$('a_a').value}&b=${$('a_b').value}`);const li=x=>`<div class="kv"><span><b>${esc(x.id)}</b> ${N(x.motor)}: ${x.de} → ${x.a}<br><span class="sub">${esc(x.texto)}</span></span></div>`;
+ $('a_c').innerHTML=`<div class="cards"><div class="card"><h3>Mejoraron</h3><div class="big si">${c.suben.length}</div></div><div class="card"><h3>Empeoraron</h3><div class="big conf">${c.bajan.length}</div></div><div class="card"><h3>Igual</h3><div class="big">${c.iguales}</div></div></div>
+ <div class="grid2"><div class="card"><h3>Subidas</h3>${c.suben.map(li).join('')||'<span class="sub">Ninguna</span>'}</div><div class="card"><h3>Bajadas</h3>${c.bajan.map(li).join('')||'<span class="sub">Ninguna</span>'}</div>
+ <div class="card"><h3>Fuentes nuevas en "después"</h3>${c.nuevas.map(([d,n])=>`<div class="kv"><span>${esc(d)}</span><b>${n}</b></div>`).join('')||'<span class="sub">Ninguna</span>'}</div><div class="card"><h3>Fuentes que dejaron de citarse</h3>${c.perdidas.map(([d,n])=>`<div class="kv"><span>${esc(d)}</span><b>${n}</b></div>`).join('')||'<span class="sub">Ninguna</span>'}</div></div><br>
+ <div class="wrap"><table><tr><th>ID</th><th>Pregunta</th>${c.motores.map(m=>`<th>${N(m)}</th>`).join('')}</tr>${c.filas.map(f=>`<tr><td>${esc(f.id)}</td><td>${esc(f.texto)}</td>${c.motores.map(m=>{const [a,b]=f.celdas[m]||[];return `<td>${a?`<span class="${cls(a)}">${a}</span>`:'—'} → ${b?`<span class="${cls(b)}">${b}</span>`:'—'}</td>`}).join('')}</tr>`).join('')}</table></div>`}
+$('a_a').onchange=comparar;$('a_b').onchange=comparar;
+let SEL=new Set(),POLL=null;
+async function sala(){const m=await api('/api/motores');MOTORES=m.motores;
+ $('s_m').innerHTML=MOTORES.map(x=>`<label class="chk"><input type="checkbox" class="s_mot" value="${x.id}" ${x.con_clave&&x.activo?'checked':''} ${x.con_clave?'':'disabled'}> <span>${x.nombre} <span class="sub">${esc(x.modelo||'')}${x.con_clave?'':' · falta clave de API'}</span></span></label>`).join('')+`<label class="chk"><input type="checkbox" disabled> <span>Copilot <span class="sub">sin API: se mide a mano</span></span></label>`;
+ $('s_d').textContent=m.diaria&&!['no','off','0'].includes(m.diaria.toLowerCase())?`Corrida automática diaria a las ${m.diaria} (hora de Guatemala), con todas las preguntas activas.`:'Corrida automática diaria apagada.';
+ PROMPTS=(await api('/api/prompts')).prompts;if(!SEL.size)PROMPTS.filter(p=>p.activo).forEach(p=>SEL.add(p.id));
+ const marcas=[...new Set(PROMPTS.map(p=>p.marca))];$('s_marcas').innerHTML=marcas.map(x=>`<button class="pill" data-mar="${esc(x)}">${esc(x)}</button>`).join('')+'<button class="pill" data-idi="ES">ES</button><button class="pill" data-idi="EN">EN</button>';
+ pintarSel();estado()}
+function pintarSel(){const q=$('s_f').value.toLowerCase();$('s_p').innerHTML=PROMPTS.filter(p=>!q||(p.id+' '+p.texto+' '+p.marca).toLowerCase().includes(q)).map(p=>`<label class="chk"><input type="checkbox" class="s_pr" value="${esc(p.id)}" ${SEL.has(p.id)?'checked':''}> <span><b>${esc(p.id)}</b> ${esc(p.texto)}${p.activo?'':' <span class="sub">(inactiva)</span>'}</span></label>`).join('');cuenta()}
+function cuenta(){const nm=document.querySelectorAll('.s_mot:checked').length*1,r=+$('s_r').value;$('s_cuenta').textContent=`${SEL.size} pregunta(s) × ${nm} motor(es) × ${r} = ${SEL.size*nm*r} consultas`}
+$('s_p').onchange=e=>{if(!e.target.classList.contains('s_pr'))return;e.target.checked?SEL.add(e.target.value):SEL.delete(e.target.value);cuenta()};
+$('s_m').onchange=cuenta;$('s_r').onchange=cuenta;$('s_f').oninput=pintarSel;
+$('s_all').onclick=()=>{SEL=new Set(PROMPTS.filter(p=>p.activo).map(p=>p.id));pintarSel()};$('s_none').onclick=()=>{SEL.clear();pintarSel()};
+$('s_marcas').onclick=e=>{const mar=e.target.dataset.mar,idi=e.target.dataset.idi;if(mar===undefined&&!idi)return;SEL=new Set(PROMPTS.filter(p=>p.activo&&(mar!==undefined?p.marca===mar:p.idioma===idi)).map(p=>p.id));pintarSel()};
+$('s_go').onclick=async()=>{const ms=[...document.querySelectorAll('.s_mot:checked')].map(x=>x.value);if(!SEL.size||!ms.length)return alert('Elige al menos una pregunta y un motor.');
+ const n=SEL.size*ms.length*(+$('s_r').value);if(n>40&&!confirm(`Se harán ${n} consultas a las APIs. ¿Continuar?`))return;
+ try{await api('/api/correr',{method:'POST',body:JSON.stringify({prompts:[...SEL],motores:ms,repeticiones:+$('s_r').value,nota:$('s_n').value})});estado()}catch(e){alert(e.message)}};
+async function estado(){const e=await api('/api/estado');$('s_bar').style.width=(e.total?Math.round(100*e.hechas/e.total):0)+'%';
+ $('s_est').textContent=e.corrida?(e.corriendo?`Corrida ${e.corrida} en curso: ${e.hechas} de ${e.total}`:`Corrida ${e.corrida} terminada: ${e.hechas} de ${e.total}`):'Sin corridas en curso.';
+ $('s_log').textContent=e.log.slice().reverse().join('\n');$('s_go').disabled=e.corriendo;
+ clearTimeout(POLL);if(e.corriendo)POLL=setTimeout(estado,2500);else if(e.corrida&&TAB==='sala'&&$('s_go').dataset.ult!=e.corrida){$('s_go').dataset.ult=e.corrida;MAT=null;if(MET==='API')cargar()}}
+async function verPrompts(){PROMPTS=(await api('/api/prompts')).prompts;const q=$('p_f').value.toLowerCase();
+ $('p_c').innerHTML=`<div class="wrap"><table><tr><th>ID</th><th>Pregunta</th><th>Tipo</th><th>Marca</th><th>Familia</th><th>Intención</th><th>Idioma</th><th>Activa</th><th></th></tr>${PROMPTS.filter(p=>!q||(p.id+' '+p.texto+' '+p.marca+' '+p.familia).toLowerCase().includes(q)).map(p=>`<tr><td>${esc(p.id)}</td><td>${esc(p.texto)}</td><td>${esc(p.tipo)}</td><td>${esc(p.marca)}</td><td>${esc(p.familia)}</td><td>${esc(p.intencion)}</td><td>${esc(p.idioma)}</td><td>${p.activo?'Sí':'<span class="no">No</span>'}</td><td><button class="pill" data-e="${esc(p.id)}">Editar</button></td></tr>`).join('')}</table></div>`}
+$('p_f').oninput=verPrompts;
+function editar(p){p=p||{id:'',texto:'',tipo:'Categoría',marca:'',familia:'',intencion:'',idioma:'ES',activo:1};
+ $('dlg_c').innerHTML=`<h2>${p.id?'Editar '+esc(p.id):'Nueva pregunta'}</h2><div class="grid2"><label class="f">ID${p.id?`<input id="e_id" value="${esc(p.id)}" disabled>`:'<input id="e_id" placeholder="p. ej. L06 o L06-EN">'}</label>
+ <label class="f">Tipo<select id="e_tipo"><option ${p.tipo==='Categoría'?'selected':''}>Categoría</option><option ${p.tipo==='Marca'?'selected':''}>Marca</option></select></label>
+ <label class="f">Marca<input id="e_marca" value="${esc(p.marca)}"></label><label class="f">Familia<input id="e_fam" value="${esc(p.familia)}"></label>
+ <label class="f">Intención<input id="e_int" value="${esc(p.intencion)}"></label><label class="f">Idioma<select id="e_idi"><option ${p.idioma==='ES'?'selected':''}>ES</option><option ${p.idioma==='EN'?'selected':''}>EN</option></select></label>
+ <label class="f">Activa<select id="e_act"><option value="1" ${p.activo?'selected':''}>Sí</option><option value="0" ${p.activo?'':'selected'}>No</option></select></label></div><br>
+ <label class="f">Pregunta<textarea id="e_txt">${esc(p.texto)}</textarea></label><br><button class="primary" id="e_ok">Guardar</button> <span class="err" id="e_msg"></span>`;dlg.showModal();
+ $('e_ok').onclick=async()=>{try{await api('/api/prompts',{method:'POST',body:JSON.stringify({id:$('e_id').value.trim(),texto:$('e_txt').value,tipo:$('e_tipo').value,marca:$('e_marca').value,familia:$('e_fam').value,intencion:$('e_int').value,idioma:$('e_idi').value,activo:$('e_act').value==='1'})});dlg.close();verPrompts()}catch(e){$('e_msg').textContent=e.message}}}
+$('p_new').onclick=()=>editar();$('p_c').onclick=e=>{const id=e.target.dataset.e;if(id)editar(PROMPTS.find(p=>p.id===id))};
+async function manual(){if(!PROMPTS.length)PROMPTS=(await api('/api/prompts')).prompts;
+ if(!$('m_fecha').value)$('m_fecha').value=new Date(Date.now()-6*3600e3).toISOString().slice(0,10);
+ if(!$('m_motor').options.length)$('m_motor').innerHTML=Object.values(NOM).map(n=>`<option>${n}</option>`).join('');
+ $('m_pid').innerHTML=PROMPTS.map(p=>`<option value="${esc(p.id)}">${esc(p.id)} · ${esc(p.texto.slice(0,70))}</option>`).join('');
+ const l=await api('/api/manual/lista');$('m_lista').innerHTML=l.filas.length?`<div class="wrap"><table><tr><th>Fecha</th><th>Motor</th><th>ID</th><th class="n">Intento</th><th>Menciona</th><th class="n">Posición</th><th>Cita sitio</th><th>Notas</th><th></th></tr>${l.filas.map(r=>`<tr><td>${r.fecha.slice(0,10)}</td><td>${N(r.motor)}</td><td>${esc(r.prompt_id)}</td><td class="n">${r.intento}</td><td>${r.posible_confusion&&!r.menciona?'<span class="conf">confusión</span>':r.menciona?'<span class="si">Sí</span>':'<span class="no">No</span>'}</td><td class="n">${r.posicion||''}</td><td>${r.cita_sitio?'Sí':'No'}</td><td>${esc(r.notas||'')}</td><td><button class="pill" data-b="${r.id}">Borrar</button></td></tr>`).join('')}</table></div>`:vacio('Todavía no hay mediciones manuales.')}
+$('m_save').onclick=async()=>{try{await api('/api/manual',{method:'POST',body:JSON.stringify({fecha:$('m_fecha').value,motor:$('m_motor').value,prompt_id:$('m_pid').value,intento:$('m_int').value,menciona:$('m_men').value,posicion:$('m_pos').value,cita_sitio:$('m_cit').value,confusion:$('m_conf').value,competidores:$('m_comp').value,fuentes:$('m_fue').value,busquedas:$('m_bus').value,notas:$('m_not').value})});
+ $('m_msg').textContent='Guardado.';['m_pos','m_comp','m_fue','m_bus','m_not'].forEach(i=>$(i).value='');manual();if(MET==='Manual')cargar()}catch(e){$('m_msg').textContent=e.message}};
+$('m_imp').onclick=async()=>{const f=$('m_csv').files[0];if(!f)return;try{const r=await api('/api/manual/importar',{method:'POST',csv:true,headers:{'Content-Type':'text/csv'},body:await f.text()});
+ $('m_impmsg').textContent=`${r.importadas} fila(s) importadas.`+(r.avisos.length?` ${r.avisos.length} aviso(s): ${r.avisos.slice(0,3).join(' · ')}`:'');manual();if(MET==='Manual')cargar()}catch(e){$('m_impmsg').textContent=e.message}};
+$('m_lista').onclick=async e=>{const id=e.target.dataset.b;if(!id||!confirm('¿Borrar este registro manual?'))return;await api('/api/manual/borrar',{method:'POST',body:JSON.stringify({id:+id})});manual();if(MET==='Manual')cargar()};
+pintarNav();cargar();
+</script></body></html>

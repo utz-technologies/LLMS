@@ -1,0 +1,30 @@
+{
+ "model": "perplexity-fast",
+ "output": [
+  {
+   "type": "search_results",
+   "queries": [
+    "Dicema empresa",
+    "Dicema opiniones"
+   ],
+   "results": [
+    {
+     "id": 1,
+     "url": "https://www.dicema.mx/",
+     "title": "Dicema Materiales",
+     "snippet": "..."
+    }
+   ]
+  },
+  {
+   "type": "message",
+   "role": "assistant",
+   "content": [
+    {
+     "type": "output_text",
+     "text": "Si te refieres a Dicema de México, distribuye cementos Cruz Azul y CEMEX."
+    }
+   ]
+  }
+ ]
+}

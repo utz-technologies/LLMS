@@ -1,0 +1,59 @@
+{
+ "model": "gpt-6-astra",
+ "output": [
+  {
+   "type": "web_search_call",
+   "id": "ws_1",
+   "status": "completed",
+   "action": {
+    "type": "search",
+    "query": "Loctite 243 Guatemala precio",
+    "sources": [
+     {
+      "type": "url",
+      "url": "https://www.dicema.com.gt/producto/loctite-243-adhesivo-fijador-de-roscas-azul-de-50-ml/"
+     },
+     {
+      "type": "url",
+      "url": "https://lewonski.com/loctite"
+     }
+    ]
+   }
+  },
+  {
+   "type": "web_search_call",
+   "id": "ws_2",
+   "status": "completed",
+   "action": {
+    "type": "search",
+    "query": "distribuidor Loctite Guatemala"
+   }
+  },
+  {
+   "type": "message",
+   "role": "assistant",
+   "content": [
+    {
+     "type": "output_text",
+     "text": "En Guatemala puedes comprar Loctite 243 en varios lugares:\n\n1. **Ferretería Lewonski**\n   - 50 ml: Q245\n\n2. **Dicema**\n   - 50 ml: Q320\n   - Calzada San Juan 0-33, zona 4 de Mixco\n\n3. **Kemik**\n   - 50 ml: Q400\n\nMi recomendación: empieza por Lewonski por precio.",
+     "annotations": [
+      {
+       "type": "url_citation",
+       "start_index": 0,
+       "end_index": 10,
+       "url": "https://lewonski.com/loctite",
+       "title": "Lewonski"
+      },
+      {
+       "type": "url_citation",
+       "start_index": 0,
+       "end_index": 10,
+       "url": "https://www.dicema.com.gt/producto/loctite-243",
+       "title": "Dicema"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,53 @@
+ID,Prompt,Tipo,Marca,Familia,Intención,Idioma
+M01,¿Qué es Dicema en Guatemala?,Marca,Dicema,Empresa,Conocer,ES
+M02,¿Dicema es una empresa confiable?,Marca,Dicema,Empresa,Confianza,ES
+M03,"¿Quién es Distribuidora Central de Materiales, S.A.?",Marca,Dicema,Empresa,Conocer,ES
+M04,¿Dicema es distribuidor autorizado de Sherwin-Williams en Guatemala?,Marca,Dicema,Empresa,Confianza,ES
+M05,¿Qué marcas distribuye Dicema?,Marca,Dicema,Empresa,Conocer,ES
+M06,¿Dónde queda Dicema y cuál es su horario?,Marca,Dicema,Empresa,Ubicación,ES
+L01,¿Dónde compro Loctite 243 en Guatemala?,Categoría,Loctite,Fijadores de rosca,Dónde comprar,ES
+L02,"¿Cuál es la diferencia entre Loctite 242, 243 y 271, y cuál me conviene?",Categoría,Loctite,Fijadores de rosca,Comparación,ES
+L03,¿Qué uso para que no se aflojen los pernos de una bomba de agua?,Categoría,Loctite,Fijadores de rosca,Problema o uso,ES
+L04,¿Dónde consigo formador de juntas Loctite 515 o 518 en Guatemala?,Categoría,Loctite,Selladores y juntas,Dónde comprar,ES
+L05,¿Cuál es el mejor distribuidor de adhesivos industriales Loctite en Guatemala?,Categoría,Loctite,Adhesivos industriales,Mejor proveedor,ES
+S01,¿Cuál es el mejor distribuidor de pintura automotriz Sherwin-Williams en Guatemala?,Categoría,Sherwin-Williams,Automotriz,Mejor proveedor,ES
+S02,¿Dónde compro barniz y tintes Sherwin-Williams para madera en Guatemala?,Categoría,Sherwin-Williams,Madera,Dónde comprar,ES
+S03,¿Qué pintura industrial anticorrosiva me recomiendas y dónde la compro en Guatemala?,Categoría,Sherwin-Williams,Industrial,Problema o uso,ES
+S04,¿Dónde venden pintura Sherwin-Williams en Mixco?,Categoría,Sherwin-Williams,Arquitectónica,Dónde comprar,ES
+S05,¿Cuánto cuesta un galón de pintura Sherwin-Williams en Guatemala?,Categoría,Sherwin-Williams,Arquitectónica,Precio,ES
+T01,¿Dónde compro lijas y abrasivos 3M en Guatemala?,Categoría,3M,Abrasivos,Dónde comprar,ES
+T02,¿Qué lija 3M uso para preparar un carro antes de pintarlo?,Categoría,3M,Automotriz,Problema o uso,ES
+T03,¿Dónde compro respiradores y equipo de seguridad industrial 3M en Guatemala?,Categoría,3M,Seguridad industrial,Dónde comprar,ES
+T04,¿Quién distribuye cintas y adhesivos industriales 3M en Guatemala?,Categoría,3M,Adhesivos industriales,Mejor proveedor,ES
+T05,¿Dónde compro productos 3M para pulir y abrillantar un carro en Guatemala?,Categoría,3M,Automotriz,Dónde comprar,ES
+T06,¿Dónde venden cinta eléctrica 3M por mayor en Guatemala?,Categoría,3M,Eléctrico,Precio,ES
+E01,¿Dónde compro masilla automotriz y pistolas para pintar en Guatemala?,Categoría,Especiales,Masilla y pistolas,Dónde comprar,ES
+E02,¿Dónde compro solventes y thinner para pintura automotriz en Guatemala?,Categoría,Especiales,Solventes,Dónde comprar,ES
+G01,¿Qué tiendas venden productos para pintura automotriz en Guatemala?,Categoría,General,Pintura automotriz,Mejor proveedor,ES
+G02,¿Qué distribuidores de materiales para talleres de enderezado y pintura hay en Guatemala?,Categoría,General,Talleres,Mejor proveedor,ES
+M01-EN,What is Dicema in Guatemala?,Marca,Dicema,Empresa,Conocer,EN
+M02-EN,Is Dicema a trustworthy company?,Marca,Dicema,Empresa,Confianza,EN
+M03-EN,"Who is Distribuidora Central de Materiales, S.A.?",Marca,Dicema,Empresa,Conocer,EN
+M04-EN,Is Dicema an authorized Sherwin-Williams distributor in Guatemala?,Marca,Dicema,Empresa,Confianza,EN
+M05-EN,Which brands does Dicema distribute?,Marca,Dicema,Empresa,Conocer,EN
+M06-EN,Where is Dicema located and what are its hours?,Marca,Dicema,Empresa,Ubicación,EN
+L01-EN,Where can I buy Loctite 243 in Guatemala?,Categoría,Loctite,Fijadores de rosca,Dónde comprar,EN
+L02-EN,"What is the difference between Loctite 242, 243 and 271, and which one should I use?",Categoría,Loctite,Fijadores de rosca,Comparación,EN
+L03-EN,"What should I use to keep the bolts on a water pump from loosening, and where can I buy it in Guatemala?",Categoría,Loctite,Fijadores de rosca,Problema o uso,EN
+L04-EN,Where can I get Loctite 515 or 518 gasket maker in Guatemala?,Categoría,Loctite,Selladores y juntas,Dónde comprar,EN
+L05-EN,Who is the best distributor of Loctite industrial adhesives in Guatemala?,Categoría,Loctite,Adhesivos industriales,Mejor proveedor,EN
+S01-EN,Who is the best Sherwin-Williams automotive paint distributor in Guatemala?,Categoría,Sherwin-Williams,Automotriz,Mejor proveedor,EN
+S02-EN,Where can I buy Sherwin-Williams wood stains and varnish in Guatemala?,Categoría,Sherwin-Williams,Madera,Dónde comprar,EN
+S03-EN,"Which anticorrosive industrial paint do you recommend, and where can I buy it in Guatemala?",Categoría,Sherwin-Williams,Industrial,Problema o uso,EN
+S04-EN,"Where can I buy Sherwin-Williams paint in Mixco, Guatemala?",Categoría,Sherwin-Williams,Arquitectónica,Dónde comprar,EN
+S05-EN,How much does a gallon of Sherwin-Williams paint cost in Guatemala?,Categoría,Sherwin-Williams,Arquitectónica,Precio,EN
+T01-EN,Where can I buy 3M sandpaper and abrasives in Guatemala?,Categoría,3M,Abrasivos,Dónde comprar,EN
+T02-EN,"Which 3M sandpaper should I use to prep a car before painting, and where can I buy it in Guatemala?",Categoría,3M,Automotriz,Problema o uso,EN
+T03-EN,Where can I buy 3M respirators and industrial safety equipment in Guatemala?,Categoría,3M,Seguridad industrial,Dónde comprar,EN
+T04-EN,Who distributes 3M industrial tapes and adhesives in Guatemala?,Categoría,3M,Adhesivos industriales,Mejor proveedor,EN
+T05-EN,Where can I buy 3M car polishing products in Guatemala?,Categoría,3M,Automotriz,Dónde comprar,EN
+T06-EN,Where can I buy 3M electrical tape wholesale in Guatemala?,Categoría,3M,Eléctrico,Precio,EN
+E01-EN,Where can I buy auto body filler and paint spray guns in Guatemala?,Categoría,Especiales,Masilla y pistolas,Dónde comprar,EN
+E02-EN,Where can I buy solvents and thinner for automotive paint in Guatemala?,Categoría,Especiales,Solventes,Dónde comprar,EN
+G01-EN,Which stores sell automotive paint supplies in Guatemala?,Categoría,General,Pintura automotriz,Mejor proveedor,EN
+G02-EN,Which suppliers serve auto body and paint shops in Guatemala?,Categoría,General,Talleres,Mejor proveedor,EN

@@ -1,0 +1,100 @@
+{
+  "marca": {
+    "nombre": "Dicema",
+    "terminos": [
+      "dicema",
+      "distribuidora central de materiales"
+    ],
+    "dominios": [
+      "dicema.com.gt"
+    ],
+    "senales_de_confusion": [
+      "dicema.mx",
+      "dicema de méxico",
+      "dicema de mexico",
+      "dicema materiales para construcción",
+      "dicema materiales para construccion"
+    ]
+  },
+  "ubicacion": {
+    "pais": "GT",
+    "ciudad": "Guatemala City",
+    "region": "Guatemala",
+    "zona_horaria": "America/Guatemala"
+  },
+  "motores": {
+    "chatgpt": {
+      "activo": true,
+      "modelo": "gpt-6-astra",
+      "variable_clave": "OPENAI_API_KEY"
+    },
+    "claude": {
+      "activo": true,
+      "modelo": "claude-sonnet-5-5",
+      "variable_clave": "ANTHROPIC_API_KEY",
+      "busquedas_max": 5
+    },
+    "gemini": {
+      "activo": true,
+      "modelo": "gemini-3.8-flash",
+      "variable_clave": "GEMINI_API_KEY"
+    },
+    "perplexity": {
+      "activo": true,
+      "esfuerzo": "fast",
+      "variable_clave": "PERPLEXITY_API_KEY"
+    },
+    "grok": {
+      "activo": true,
+      "modelo": "grok-4.7",
+      "variable_clave": "XAI_API_KEY"
+    }
+  },
+  "competidores": [
+    "Lewonski",
+    "Kemik",
+    "Nils Pira",
+    "Difratti",
+    "Fratti",
+    "Componentes Industriales",
+    "Imporcomp",
+    "Representaciones Castro",
+    "G.L. Distribuidora",
+    "GL Distribuidora",
+    "El Matiz",
+    "El Volcán",
+    "El Volcan",
+    "Clymarco",
+    "Pinturas Express",
+    "Masicenter",
+    "Regioamerica",
+    "Paleta",
+    "Pinturas Sega",
+    "Colorshop",
+    "Protecto",
+    "Indosha",
+    "MacroCity",
+    "Cemaco",
+    "Elex",
+    "Proindesa",
+    "General Safety",
+    "Cobertura Industrial",
+    "CELASA",
+    "Electroma",
+    "Almacén Antillón",
+    "Perffect Car Center",
+    "Maserco",
+    "Líbano Madera",
+    "Pochteca",
+    "Auto Pinturas San Juan",
+    "Multicolores",
+    "RYR",
+    "Pacifiko",
+    "Ubuy",
+    "Vicent's",
+    "TecnoTools",
+    "Coextra"
+  ],
+  "pausa_entre_preguntas_segundos": 2,
+  "tiempo_maximo_por_pregunta_segundos": 180
+}

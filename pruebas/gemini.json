@@ -1,0 +1,47 @@
+{
+ "modelVersion": "gemini-3.8-flash",
+ "candidates": [
+  {
+   "content": {
+    "parts": [
+     {
+      "text": "Puedes encontrar Loctite 243 en Dicema (Mixco), en Ferretería Lewonski y en Kemik. Dicema publica el precio de Q320."
+     }
+    ]
+   },
+   "groundingMetadata": {
+    "webSearchQueries": [
+     "Loctite 243 Guatemala",
+     "dónde comprar Loctite 243 Guatemala"
+    ],
+    "groundingChunks": [
+     {
+      "web": {
+       "uri": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc",
+       "title": "dicema.com.gt"
+      }
+     },
+     {
+      "web": {
+       "uri": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/def",
+       "title": "lewonski.com"
+      }
+     }
+    ],
+    "groundingSupports": [
+     {
+      "segment": {
+       "startIndex": 0,
+       "endIndex": 60,
+       "text": "..."
+      },
+      "groundingChunkIndices": [
+       0,
+       1
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

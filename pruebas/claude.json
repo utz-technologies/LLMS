@@ -1,0 +1,51 @@
+{
+ "model": "claude-sonnet-5-5",
+ "stop_reason": "end_turn",
+ "content": [
+  {
+   "type": "text",
+   "text": "Voy a buscar opciones en Guatemala."
+  },
+  {
+   "type": "server_tool_use",
+   "id": "srvtoolu_1",
+   "name": "web_search",
+   "input": {
+    "query": "comprar Loctite 243 Guatemala"
+   }
+  },
+  {
+   "type": "web_search_tool_result",
+   "tool_use_id": "srvtoolu_1",
+   "content": [
+    {
+     "type": "web_search_result",
+     "url": "https://nilspira.com/loctite",
+     "title": "Nils Pira",
+     "encrypted_content": "x",
+     "page_age": null
+    },
+    {
+     "type": "web_search_result",
+     "url": "https://www.difratti.com",
+     "title": "Difratti",
+     "encrypted_content": "x",
+     "page_age": null
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "text": "Las opciones principales son Nils Pira, distribuidor autorizado de Loctite, y Difratti.",
+   "citations": [
+    {
+     "type": "web_search_result_location",
+     "url": "https://nilspira.com/loctite",
+     "title": "Nils Pira",
+     "encrypted_index": "x",
+     "cited_text": "..."
+    }
+   ]
+  }
+ ]
+}
