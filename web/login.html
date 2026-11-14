@@ -2,18 +2,22 @@
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Dicema en las IAs</title>
+<link rel="icon" href="/icono">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e4e3de;--accent:#b4232a}
-@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#1f1f1d;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#e0575e}}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-form{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px;width:min(340px,calc(100vw - 32px))}
-h1{font-size:20px;margin:0 0 4px}h1 span{color:var(--accent)}p{color:var(--muted);margin:0 0 18px}
-input{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
-button{margin-top:12px;width:100%;padding:10px;border:0;border-radius:8px;background:var(--ink);color:var(--bg);font:inherit;font-weight:600;cursor:pointer}
-.err{color:var(--accent);font-size:13px;margin-top:10px;display:none}
+:root{--bg:#f4f4f2;--card:#fff;--ink:#1f1f1f;--muted:#74746f;--line:#e7e6e1;--rojo:#c8102e}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--card:#1b1b1a;--ink:#efefec;--muted:#a9a9a3;--line:#2f2f2c;--rojo:#ef5b6e}}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:15px/1.5 Montserrat,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px 30px;width:min(380px,calc(100vw - 32px));border-top:4px solid var(--rojo)}
+.logo{height:42px;display:block;margin-bottom:14px}.txt{display:none;font-weight:700;letter-spacing:.06em;color:var(--rojo);font-size:24px;margin-bottom:10px}
+h1{font-size:19px;font-weight:600;margin:0 0 4px}p{color:var(--muted);margin:0 0 22px;font-size:14px}
+input{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit}
+button{margin-top:14px;width:100%;padding:12px;border:0;border-radius:12px;background:var(--rojo);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.err{color:var(--rojo);font-size:13px;margin-top:12px;display:none}
 </style></head><body>
 <form method="post" action="/login">
-<h1><span>Dicema</span> en las IAs</h1><p>Panel privado de visibilidad en buscadores con IA.</p>
+<img class="logo" src="/logo" alt="Dicema" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="txt">DICEMA</div>
+<h1>Qué responden las IAs sobre Dicema</h1><p>Panel privado de visibilidad en ChatGPT, Gemini, Perplexity, Grok y Claude.</p>
 <input type="password" name="clave" placeholder="Contraseña" autocomplete="current-password" autofocus required>
 <button type="submit">Entrar</button>
 <div class="err" id="err">Contraseña incorrecta.</div>

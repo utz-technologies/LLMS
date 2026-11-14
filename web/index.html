@@ -2,193 +2,383 @@
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Dicema en las IAs</title>
+<link rel="icon" href="/icono">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e4e3de;--soft:#f0efea;--accent:#b4232a;--good:#2f7d4f;--warn:#a8650d;--bad:#b4232a}
-@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#1f1f1d;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--soft:#262624;--accent:#e0575e;--good:#5fbf86;--warn:#e0a84c;--bad:#e0575e}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{padding:18px 24px 10px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
-h1{font-size:20px;margin:0}h1 span{color:var(--accent)}.sub{color:var(--muted)}
-.top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-nav{display:flex;gap:4px;flex-wrap:wrap;padding:10px 24px;position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
-button,.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer;font:inherit;text-decoration:none;display:inline-block}
-button.on,button.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-button:disabled{opacity:.5;cursor:default}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}.seg button{border:0;border-radius:0}
-main{padding:20px 24px 80px;max-width:1320px}section{display:none}section.on{display:block}
-h2{font-size:17px;margin:0 0 4px}h3{font-size:14px;margin:0 0 8px}p.lead{color:var(--muted);margin:0 0 16px;max-width:860px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:20px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
-.kv{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-top:1px solid var(--line)}.kv:first-of-type{border-top:0}
-.kv b{font-variant-numeric:tabular-nums}.big{font-size:28px;font-weight:600;font-variant-numeric:tabular-nums}
-.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:16px}
+:root{--bg:#ffffff;--panel:#f4f4f2;--card:#ffffff;--ink:#1f1f1f;--muted:#74746f;--faint:#a3a39d;--line:#e7e6e1;--soft:#f7f7f5;
+ --rojo:#c8102e;--rojo-suave:#fbecee;--verde:#2e8b57;--verde-suave:#e9f5ee;--ambar:#b7791f;
+ --chatgpt:#3b6fd8;--gemini:#e2683c;--perplexity:#3aa676;--grok:#e0a43a;--claude:#d9779f;--copilot:#8a6bd1}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--panel:#1d1d1c;--card:#1b1b1a;--ink:#efefec;--muted:#a9a9a3;--faint:#7c7c76;--line:#2f2f2c;--soft:#222220;
+ --rojo:#ef5b6e;--rojo-suave:#3a1c21;--verde:#5cc08a;--verde-suave:#1b3125}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Montserrat,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:inherit}button,input,select,textarea{font:inherit;color:inherit}
+/* ---------- cabecera ---------- */
+.cab{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 32px 14px}
+.marca{display:flex;align-items:center;gap:14px;min-width:0}
+.marca img{height:38px;width:auto;display:block}
+.marca .txt{font-weight:700;letter-spacing:.06em;color:var(--rojo);font-size:22px;display:none}
+.marca .lema{color:var(--muted);font-size:17px;white-space:nowrap}
+.nav{display:flex;gap:2px;background:var(--panel);border-radius:14px;padding:5px;overflow-x:auto;max-width:100%}
+.nav button{border:0;background:transparent;padding:9px 16px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:15px;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.nav button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.nav .punto{width:8px;height:8px;border-radius:50%;background:var(--verde)}
+.nav .punto.vivo{background:var(--rojo);animation:lat 1s infinite}
+@keyframes lat{50%{opacity:.25}}
+.sub{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:0 32px 14px;border-bottom:1px solid var(--line)}
+.seg{display:inline-flex;background:var(--panel);border-radius:12px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--muted);font-size:14px}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08);font-weight:500}
+.nota{color:var(--muted);font-size:13px}
+.salir{margin-left:auto;color:var(--muted);font-size:13px;text-decoration:none}
+.banner{margin:14px 32px 0;background:#fff6e5;border:1px solid #f0d9a8;color:#7a5410;border-radius:10px;padding:9px 14px;font-size:13px}
+@media (prefers-color-scheme:dark){.banner{background:#33290f;border-color:#5c4a1c;color:#f0d79a}}
+/* ---------- contenido ---------- */
+main{padding:26px 32px 90px;max-width:1440px}
+section{display:none}section.on{display:block}
+h2{font-size:24px;font-weight:600;margin:0 0 6px}h3{font-size:16px;font-weight:600;margin:0 0 10px}
+.lead{color:var(--muted);font-size:16px;margin:0 0 22px;max-width:980px}
+.tarjetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.tarjetas.tres{grid-template-columns:repeat(3,1fr)}@media (max-width:900px){.tarjetas.tres{grid-template-columns:1fr 1fr}}@media (max-width:560px){.tarjetas.tres{grid-template-columns:1fr}}
+.tarjeta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.tarjeta .et{color:var(--muted);font-size:14px}
+.tarjeta .num{font-size:46px;font-weight:300;line-height:1.15;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.tarjeta .num.rojo{color:var(--rojo)}.tarjeta .num.verde{color:var(--verde)}
+.tarjeta .pie{color:var(--muted);font-size:13px}
+.caja{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:22px}
+.caja.pad{padding:20px 22px}
+.tabla{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
-th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{background:var(--card);font-weight:600;font-size:12px;color:var(--muted);white-space:nowrap}
-td.n,th.n{text-align:right}tr.hueco td{background:color-mix(in srgb,var(--bad) 9%,transparent)}
-.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line);margin:1px;background:var(--card)}
-button.pill{padding:2px 9px}
-.pos{color:var(--good);font-weight:600}.si{color:var(--good)}.no{color:var(--muted)}.err{color:var(--warn)}.conf{color:var(--bad);font-weight:600}
-.celda{cursor:pointer;border-radius:4px;padding:1px 3px}.celda:hover{background:var(--soft)}
-input,select,textarea{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
-input[type=search]{min-width:240px}textarea{width:100%;min-height:60px}
-.ctl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}label.f>*{color:var(--ink);font-size:14px}
-.bar{height:10px;background:var(--muted);border-radius:3px;display:inline-block;vertical-align:middle;opacity:.55}.bar.hl{background:var(--accent);opacity:1}
-.prog{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin:8px 0}.prog div{height:100%;background:var(--good);width:0}
-pre.log{background:var(--soft);border-radius:8px;padding:10px;max-height:320px;overflow:auto;font-size:12px;margin:0;white-space:pre-wrap}
-.vacio{padding:30px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px}
-.banner{background:color-mix(in srgb,var(--warn) 15%,var(--card));border:1px solid var(--warn);border-radius:8px;padding:8px 12px;margin:0 24px 0}
-dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);max-width:min(860px,calc(100vw - 32px));width:100%;padding:0}
-dialog::backdrop{background:rgba(0,0,0,.4)}.dlg{padding:18px 20px;max-height:80vh;overflow:auto}.dlg pre{white-space:pre-wrap;background:var(--soft);padding:10px;border-radius:8px;font:13px/1.5 inherit}
-.cols{columns:2 260px;column-gap:16px}.chk{display:flex;gap:6px;align-items:flex-start;padding:2px 0;break-inside:avoid}
-@media (max-width:640px){header,nav,main{padding-left:16px;padding-right:16px}.banner{margin:0 16px}nav{flex-wrap:nowrap;overflow-x:auto}nav button{white-space:nowrap}}
+th{background:var(--soft);font-weight:500;color:var(--ink);font-size:14px;text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th.n,td.n{text-align:right}
+td .var{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+tr.hueco td{background:var(--rojo-suave)}
+.ids{font:12.5px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);letter-spacing:.02em}
+.mid{color:var(--verde)}.cero{color:var(--faint)}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.d-chatgpt{background:var(--chatgpt)}.d-gemini{background:var(--gemini)}.d-perplexity{background:var(--perplexity)}.d-grok{background:var(--grok)}.d-claude{background:var(--claude)}.d-copilot{background:var(--copilot)}
+.filtros{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.buscar{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--card);min-width:260px}
+.enlace{margin-left:auto;color:var(--ink);text-decoration:underline;text-underline-offset:3px;font-size:15px}
+.chip{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12.5px;background:var(--card);margin:2px 2px 0 0}
+.chip.rojo{border-color:var(--rojo);color:var(--rojo)}
+.pos{color:var(--verde);font-weight:600}.si{color:var(--verde)}.no{color:var(--faint)}.err{color:var(--ambar)}.conf{color:var(--rojo);font-weight:600}
+.flecha{font-size:11px;margin-left:3px}.flecha.sube{color:var(--verde)}.flecha.baja{color:var(--rojo)}
+.celda{cursor:pointer;border-radius:6px;padding:2px 4px}.celda:hover{background:var(--soft)}
+.vacio{padding:42px;text-align:center;color:var(--muted);background:var(--soft);border-radius:16px}
+.boton{border:1px solid var(--line);background:var(--card);padding:10px 18px;border-radius:12px;cursor:pointer}
+.boton.prim{background:var(--rojo);border-color:var(--rojo);color:#fff;font-weight:600}
+.boton:disabled{opacity:.45;cursor:default}
+.mini{border:1px solid var(--line);background:var(--card);padding:4px 11px;border-radius:999px;cursor:pointer;font-size:13px}
+.mini.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input[type=text],input[type=date],input[type=number],select,textarea{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--card)}
+textarea{width:100%;min-height:80px;resize:vertical}
+label.campo{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}label.campo>*{font-size:15px;color:var(--ink)}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+/* línea de tiempo */
+.linea{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:22px}
+.hito{flex:0 0 auto;min-width:132px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card);cursor:pointer;text-align:left}
+.hito.on{border-color:var(--rojo);box-shadow:0 0 0 1px var(--rojo)}
+.hito .f{font-size:12.5px;color:var(--muted)}.hito .p{font-size:26px;font-weight:300;margin:2px 0}.hito .o{font-size:12px;color:var(--faint)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:24px}
+.meta>div{padding:20px 22px;border-right:1px solid var(--line)}.meta>div:last-child{border-right:0}
+.meta .k{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.meta .v{font-size:40px;font-weight:300;margin:4px 0}
+.delta{font-size:13px;color:var(--muted)}.delta.sube{color:var(--verde)}.delta.baja{color:var(--rojo)}
+.motores{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:24px}
+.motor{border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:var(--card)}
+.motor h4{margin:0 0 10px;font-size:16px;font-weight:600}
+.fila{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid var(--line);font-size:14px}.fila:first-of-type{border-top:0}
+.fila b{font-weight:500;font-variant-numeric:tabular-nums}
+.grafica svg{display:block;width:100%;height:auto}
+/* sala de control */
+.columnas{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:20px 0}
+.col{border:1px solid var(--line);border-radius:16px;background:var(--card);min-height:220px;display:flex;flex-direction:column}
+.col .ct{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.col .ct b{font-weight:600}.col .est{font-size:12.5px;color:var(--muted)}.col .est.pensando{color:var(--rojo)}
+.col .cb{padding:14px 16px;font-size:14px;overflow:auto;max-height:420px}
+.col .cb .ult{white-space:pre-wrap;color:var(--ink);font-size:13.5px;line-height:1.5;margin-top:8px}
+.col .cb .prev{border-top:1px solid var(--line);margin-top:10px;padding-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.consola{background:var(--soft);border-radius:14px;padding:14px 16px;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:260px;overflow:auto;white-space:pre-wrap;color:var(--muted)}
+.prog{height:6px;background:var(--panel);border-radius:3px;overflow:hidden;margin:12px 0}.prog div{height:100%;background:var(--rojo);width:0;transition:width .4s}
+.lista{columns:2 320px;column-gap:20px;max-height:340px;overflow:auto;padding:4px 2px}
+.chk{display:flex;gap:8px;align-items:flex-start;padding:3px 0;break-inside:avoid;font-size:14px}
+.barras .b{display:grid;grid-template-columns:minmax(120px,240px) 1fr 50px;gap:12px;align-items:center;padding:7px 0}
+.barras .t{height:12px;border-radius:6px;background:var(--panel)}.barras .t div{height:100%;border-radius:6px;background:var(--faint)}
+.barras .b.yo .t div{background:var(--rojo)}.barras .b.yo span:first-child{color:var(--rojo);font-weight:600}
+dialog{border:0;border-radius:18px;background:var(--card);color:var(--ink);width:min(900px,calc(100vw - 24px));padding:0;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(20,20,20,.45)}
+.dlg{padding:24px 26px;max-height:78vh;overflow:auto}.dlg pre{white-space:pre-wrap;background:var(--soft);border-radius:12px;padding:14px;font:14px/1.55 Montserrat,system-ui,sans-serif}
+.dlg-pie{padding:0 26px 20px;text-align:right}
+@media (max-width:760px){.cab,.sub{padding-left:16px;padding-right:16px}main{padding:20px 16px 80px}.banner{margin:12px 16px 0}
+ .marca .lema{display:none}.tarjeta .num{font-size:38px}.meta{grid-template-columns:1fr 1fr}.meta>div{border-right:0;border-bottom:1px solid var(--line)}.meta .v{font-size:32px}.buscar{min-width:0;flex:1}.enlace{margin-left:0}}
 </style></head><body>
-<header><div><h1><span>Dicema</span> en las IAs</h1><div class="sub" id="sub">Cargando…</div></div>
-<div class="top"><span class="sub">Ver:</span><div class="seg" id="met"><button data-m="API" class="on">Por API</button><button data-m="Manual">Medición manual</button></div><a class="btn" href="/salir">Salir</a></div></header>
+<header class="cab">
+ <div class="marca"><img src="/logo" alt="Dicema" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="txt">DICEMA</span><span class="lema">Qué responden las IAs sobre Dicema</span></div>
+ <nav class="nav" id="nav"></nav>
+</header>
+<div class="sub">
+ <div class="seg" id="met"><button data-m="Manual">Medición manual (apps reales)</button><button data-m="API" class="on">Por API: corrida diaria y botón Correr</button></div>
+ <span class="nota">API y medición manual nunca se mezclan.</span>
+ <a class="salir" href="/salir">Salir</a>
+</div>
 <div id="sim"></div>
-<nav id="nav"></nav>
 <main>
-<section id="pulso"><h2>Pulso</h2><p class="lead">Mención en preguntas de categoría (cuando el cliente no nombra a Dicema), primer lugar, posición promedio y mención en preguntas de marca. API y medición manual nunca se mezclan.</p><div id="pulso_c"></div></section>
-<section id="respuestas"><h2>Respuestas</h2><p class="lead">Una corrida, pregunta por pregunta. #n = lugar de Dicema; Sí = la menciona sin lista; No = no aparece; confusión = habla de otra empresa con el mismo nombre. Haz clic en una celda para ver la respuesta completa.</p>
-<div class="ctl"><select id="r_corrida"></select><input type="search" id="r_f" placeholder="Filtrar por ID, marca o texto…"><a class="btn" id="r_csv" href="#">Descargar CSV</a></div><div id="r_c"></div></section>
-<section id="fanouts"><h2>Fan-outs: lo que las IAs buscan antes de contestar</h2><p class="lead">Quien aparece en Google y Bing para estas búsquedas es quien sale citado. Las filas marcadas las repiten 2 o más motores y Dicema nunca aparece: son páginas que faltan o que no posicionan.</p>
-<div class="ctl"><input type="search" id="f_f" placeholder="Filtrar búsquedas…"><span id="f_m"></span><label class="sub"><input type="checkbox" id="f_h"> solo huecos</label></div><div id="f_c"></div></section>
-<section id="competencia"><h2>Competencia</h2><p class="lead">Empresas y sitios más nombrados en preguntas de categoría.</p><div id="c_c"></div></section>
-<section id="brujula"><h2>Brújula de fuentes</h2><p class="lead">Qué sitios leen las IAs cuando sí recomiendan a Dicema y cuando no. Un sitio frecuente sin Dicema es un lugar donde Dicema todavía no está.</p><div id="b_c"></div></section>
-<section id="comparar"><h2>Antes y después</h2><p class="lead">Dos corridas del mismo método lado a lado.</p><div class="ctl"><span class="sub">Antes</span><select id="a_a"></select><span class="sub">Después</span><select id="a_b"></select></div><div id="a_c"></div></section>
-<section id="sala"><h2>Sala de control</h2><p class="lead">Corre preguntas en los motores con clave de API. Cada consulta tiene costo: empieza con pocas preguntas.</p>
-<div class="grid2"><div class="card"><h3>Motores</h3><div id="s_m"></div><p class="sub" id="s_d"></p></div>
-<div class="card"><h3>Opciones</h3><label class="f">Intentos por pregunta<select id="s_r"><option>1</option><option>2</option><option>3</option></select></label><br><label class="f">Nota (opcional)<input id="s_n" placeholder="p. ej. después de fichas Loctite"></label><br>
-<button class="primary" id="s_go">Correr</button> <span class="sub" id="s_cuenta"></span></div></div><br>
-<div class="card"><div class="ctl"><h3 style="margin:0">Preguntas</h3><button class="pill" id="s_all">Todas las activas</button><button class="pill" id="s_none">Ninguna</button><span id="s_marcas"></span><input type="search" id="s_f" placeholder="Filtrar…"></div><div class="cols" id="s_p"></div></div><br>
-<div class="card"><h3>Progreso</h3><div class="prog"><div id="s_bar"></div></div><div class="sub" id="s_est">Sin corridas en curso.</div><br><pre class="log" id="s_log"></pre></div></section>
-<section id="prompts"><h2>Preguntas</h2><p class="lead">Las que corre la medición. Los ID de marca empiezan con M. Las inactivas no entran en la corrida diaria.</p>
-<div class="ctl"><button class="primary" id="p_new">Agregar pregunta</button><input type="search" id="p_f" placeholder="Filtrar…"></div><div id="p_c"></div></section>
-<section id="manual"><h2>Medición manual</h2><p class="lead">Lo que se mide a mano en las apps reales (Copilot, cuentas limpias). Se guarda aparte de las corridas por API.</p>
-<div class="card"><h3>Registrar una respuesta</h3><div class="grid2" id="m_form">
-<label class="f">Fecha<input type="date" id="m_fecha"></label><label class="f">Motor<select id="m_motor"></select></label>
-<label class="f">Pregunta<select id="m_pid"></select></label><label class="f">Intento<input type="number" id="m_int" value="1" min="1" max="9"></label>
-<label class="f">¿Menciona a Dicema?<select id="m_men"><option>Sí</option><option selected>No</option></select></label><label class="f">Posición (si hay lista)<input type="number" id="m_pos" min="1"></label>
-<label class="f">¿Cita dicema.com.gt?<select id="m_cit"><option>Sí</option><option selected>No</option></select></label><label class="f">¿Confunde a Dicema con otra empresa?<select id="m_conf"><option>No</option><option>Sí</option></select></label>
-<label class="f">Competidores (separados por ;)<input id="m_comp"></label><label class="f">Fuentes (separadas por ;)<input id="m_fue"></label>
-<label class="f">Búsquedas visibles (separadas por ;)<input id="m_bus"></label><label class="f">Notas<input id="m_not"></label></div><br>
-<button class="primary" id="m_save">Guardar</button> <span class="sub" id="m_msg"></span></div><br>
-<div class="card"><h3>Importar desde la hoja</h3><p class="sub">CSV con las columnas de la pestaña Registro: Fecha, Motor, ID prompt, Intento, ¿Menciona?, Posición, ¿Cita?, Competidores, Fuentes, Búsquedas, Captura, Notas.</p><input type="file" id="m_csv" accept=".csv,text/csv"> <button id="m_imp">Importar</button> <span class="sub" id="m_impmsg"></span></div><br>
-<div id="m_lista"></div></section>
+<section id="correr">
+ <h2>Sala de control</h2><p class="lead">Una pregunta, cinco inteligencias, en vivo. Cada respuesta queda guardada en el historial como corrida por API.</p>
+ <div class="seg" id="modo" style="margin-bottom:16px"><button data-o="uno" class="on">Un prompt del panel</button><button data-o="varios">Varias preguntas</button><button data-o="libre">Pregunta libre</button></div>
+ <div id="m_uno"><select id="c_uno" style="width:100%;max-width:900px"></select></div>
+ <div id="m_varios" style="display:none"><div class="filtros"><button class="mini" id="c_todas">Todas las activas</button><button class="mini" id="c_ninguna">Ninguna</button><span id="c_grupos"></span><input class="buscar" id="c_f" placeholder="Filtrar…"></div><div class="caja pad"><div class="lista" id="c_lista"></div></div></div>
+ <div id="m_libre" style="display:none"><textarea id="c_libre" placeholder="Escribe la pregunta tal como la haría un cliente. No entra en las métricas."></textarea></div>
+ <div class="filtros" style="margin-top:16px"><span id="c_mot"></span>
+  <label class="nota">Intentos <select id="c_rep"><option>1</option><option>2</option><option>3</option></select></label>
+  <input type="text" id="c_nota" placeholder="Nota (opcional)" style="min-width:220px">
+  <button class="boton prim" id="c_go">Correr</button><span class="nota" id="c_cuenta"></span></div>
+ <div class="prog"><div id="c_bar"></div></div><div class="nota" id="c_est"></div>
+ <div class="columnas" id="c_cols"></div>
+ <h3>Consola <span class="nota">· hora de Guatemala</span></h3><div class="consola" id="c_log">Aquí se ve cada paso con su hora: cuándo salió cada pregunta y qué contestó cada IA.</div>
+ <p class="nota" id="c_diaria" style="margin-top:14px"></p>
+</section>
+
+<section id="pulso"><div id="pulso_c"></div></section>
+
+<section id="respuestas">
+ <h2>Respuestas</h2><p class="lead">Una corrida, pregunta por pregunta. <b>#n</b> es el lugar de Dicema en la lista, <b>Sí</b> la menciona sin lista, <b>No</b> no aparece y <b class="conf">confusión</b> habla de otra empresa con el mismo nombre. Las flechas comparan con la corrida anterior. Haz clic en una celda para leer la respuesta.</p>
+ <div class="filtros"><select id="r_corrida"></select><input class="buscar" id="r_f" placeholder="Filtrar por ID, marca o texto…"><a class="enlace" id="r_csv" href="#">Descargar CSV</a></div>
+ <div id="r_c"></div>
+</section>
+
+<section id="competencia"><div id="comp_c"></div></section>
+<section id="brujula"><div id="bru_c"></div></section>
+
+<section id="fanouts">
+ <h2>Fan-outs: lo que las IAs buscan antes de contestar</h2>
+ <p class="lead">Cada IA convierte la pregunta del cliente en varias búsquedas cortas. Estas son las reales, capturadas de las respuestas. Quien aparece en Google y Bing para estas búsquedas es quien sale citado.</p>
+ <div class="tarjetas" id="f_kpi"></div>
+ <div class="filtros"><div class="seg" id="f_mot"></div><div class="seg" id="f_idi"><button data-i="" class="on">EN y ES</button><button data-i="EN">Prompts EN</button><button data-i="ES">Prompts ES</button></div>
+  <input class="buscar" id="f_f" placeholder="Filtrar…"><label class="nota"><input type="checkbox" id="f_h"> solo huecos</label><a class="enlace" id="f_csv" href="/api/fanouts.csv">Descargar CSV</a></div>
+ <div id="f_c"></div>
+ <p class="nota">Lectura: una búsqueda que varios motores repiten y en la que Dicema nunca aparece (filas sombreadas) es una página que falta o que no posiciona.</p>
+</section>
+
+<section id="comparar">
+ <h2>Antes y después</h2><p class="lead">Dos corridas lado a lado, pregunta por pregunta. Compara corridas del mismo tipo (API con API, manual con manual) para que la diferencia sea real y no del método.</p>
+ <div class="filtros"><label class="nota">Antes <select id="a_a"></select></label><label class="nota">Después <select id="a_b"></select></label></div><div id="a_c"></div>
+</section>
+
+<section id="preguntas">
+ <h2>Preguntas</h2><p class="lead">Las que corre la medición. Los ID de marca empiezan con M. Las inactivas no entran en la corrida diaria.</p>
+ <div class="filtros"><button class="boton prim" id="p_new">Agregar pregunta</button><input class="buscar" id="p_f" placeholder="Filtrar…"></div><div id="p_c"></div>
+</section>
+
+<section id="manual">
+ <h2>Medición manual</h2><p class="lead">Lo que se mide a mano en las apps reales, con cuentas limpias (Copilot y las demás). Se guarda aparte de las corridas por API.</p>
+ <div class="caja pad"><h3>Registrar una respuesta</h3><div class="rejilla">
+  <label class="campo">Fecha<input type="date" id="m_fecha"></label><label class="campo">Motor<select id="m_motor"></select></label>
+  <label class="campo">Pregunta<select id="m_pid"></select></label><label class="campo">Intento<input type="number" id="m_int" value="1" min="1" max="9"></label>
+  <label class="campo">¿Menciona a Dicema?<select id="m_men"><option>Sí</option><option selected>No</option></select></label><label class="campo">Posición (si hay lista)<input type="number" id="m_pos" min="1"></label>
+  <label class="campo">¿Cita dicema.com.gt?<select id="m_cit"><option>Sí</option><option selected>No</option></select></label><label class="campo">¿La confunde con otra empresa?<select id="m_conf"><option>No</option><option>Sí</option></select></label>
+  <label class="campo">Competidores (separados por ;)<input type="text" id="m_comp"></label><label class="campo">Fuentes (separadas por ;)<input type="text" id="m_fue"></label>
+  <label class="campo">Búsquedas visibles (separadas por ;)<input type="text" id="m_bus"></label><label class="campo">Notas<input type="text" id="m_not"></label></div>
+  <p><button class="boton prim" id="m_save">Guardar</button> <span class="nota" id="m_msg"></span></p></div>
+ <div class="caja pad"><h3>Importar desde la hoja</h3><p class="nota">CSV con las columnas de la pestaña Registro: Fecha, Motor, ID prompt, Intento, ¿Menciona?, Posición, ¿Cita?, Competidores, Fuentes, Búsquedas, Captura, Notas.</p>
+  <input type="file" id="m_csv" accept=".csv,text/csv"> <button class="boton" id="m_imp">Importar</button> <span class="nota" id="m_impmsg"></span></div>
+ <div id="m_lista"></div>
+</section>
 </main>
-<dialog id="dlg"><div class="dlg" id="dlg_c"></div><div style="padding:0 20px 16px;text-align:right"><button onclick="dlg.close()">Cerrar</button></div></dialog>
+<dialog id="dlg"><div class="dlg" id="dlg_c"></div><div class="dlg-pie"><button class="boton" onclick="dlg.close()">Cerrar</button></div></dialog>
+
 <script>
 const SIMULAR=__SIMULAR__;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pc=v=>v==null?'—':v+'%';
-const NOM={chatgpt:'ChatGPT',claude:'Claude',gemini:'Gemini',perplexity:'Perplexity',grok:'Grok',copilot:'Copilot'};const N=m=>NOM[m]||m;
-async function api(url,opt={}){const r=await fetch(url,{...opt,headers:{'X-Dicema':'1',...(opt.body&&typeof opt.body==='string'&&!opt.csv?{'Content-Type':'application/json'}:{}),...(opt.headers||{})}});
- if(r.status===401){location.href='/login';throw new Error('sesión')}const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('Error '+r.status));return j}
-const fecha=s=>(s||'').replace('T',' ').slice(0,16);
-const tabs=[['pulso','Pulso'],['respuestas','Respuestas'],['fanouts','Fan-outs'],['competencia','Competencia'],['brujula','Brújula'],['comparar','Antes y después'],['sala','Sala de control'],['prompts','Preguntas'],['manual','Medición manual']];
-let TAB=(location.hash||'#pulso').slice(1);if(!tabs.some(t=>t[0]===TAB))TAB='pulso';
-let MET='API',R=null,PROMPTS=[],MOTORES=[];
+const NOM={chatgpt:'ChatGPT',gemini:'Gemini',perplexity:'Perplexity',grok:'Grok',claude:'Claude',copilot:'Copilot'};
+const ORDEN=['chatgpt','gemini','perplexity','grok','claude','copilot'];const N=m=>NOM[m]||m;
+const dot=m=>`<span class="dot d-${m}" title="${N(m)}"></span>`;
+const fecha=s=>{if(!s)return'';const d=new Date(s.replace(' ','T'));if(isNaN(d))return s;return d.toLocaleDateString('es-GT',{day:'numeric',month:'short'})+', '+d.toLocaleTimeString('es-GT',{hour:'2-digit',minute:'2-digit'})};
+async function api(url,opt={}){const h={'X-Dicema':'1'};if(opt.body&&!opt.csv)h['Content-Type']='application/json';if(opt.csv)h['Content-Type']='text/csv';
+ const r=await fetch(url,{method:opt.method||'GET',body:opt.body,headers:h});if(r.status===401){location.href='/login';throw new Error('sesión')}
+ const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('Error '+r.status));return j}
+const TABS=[['correr','Correr'],['pulso','Pulso'],['respuestas','Respuestas'],['competencia','Competencia'],['brujula','Brújula'],['fanouts','Fan-outs'],['comparar','Antes y después'],['preguntas','Preguntas'],['manual','Manual']];
+let TAB=(location.hash||'#pulso').slice(1);if(!TABS.some(t=>t[0]===TAB))TAB='pulso';
+let MET='API',R=null,PROMPTS=[],CORRIENDO=false,MAT={},PULSO_I=null,SERIE='mencion_categoria',VER_TABLA=false,FMOT='',FIDI='';
 if(SIMULAR)$('sim').innerHTML='<div class="banner"><b>Modo simulación:</b> las corridas usan respuestas de ejemplo, no las APIs reales.</div>';
-function pintarNav(){$('nav').innerHTML=tabs.map(([k,t])=>`<button data-k="${k}" class="${k===TAB?'on':''}">${t}</button>`).join('');
- document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===TAB))}
-$('nav').onclick=e=>{const k=e.target.dataset.k;if(!k)return;TAB=k;history.replaceState(null,'','#'+k);pintarNav();mostrar()};
-$('met').onclick=e=>{const m=e.target.dataset.m;if(!m)return;MET=m;document.querySelectorAll('#met button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));cargar()};
-async function cargar(){R=await api('/api/resumen?metodo='+MET);
- $('sub').textContent=R.vacio?(MET==='API'?'Todavía no hay corridas por API.':'Todavía no hay mediciones manuales.'):`${R.corridas.length} corrida(s) · última: ${fecha(R.corridas[R.corridas.length-1].inicio)}`;
- const opts=R.vacio?'':R.corridas.slice().reverse().map(c=>`<option value="${c.id}">Corrida ${c.id} · ${fecha(c.inicio)} · ${esc(c.origen||'')}${c.nota?' · '+esc(c.nota):''}</option>`).join('');
- $('r_corrida').innerHTML=opts;$('a_a').innerHTML=opts;$('a_b').innerHTML=opts;
- if(!R.vacio&&R.corridas.length>1)$('a_a').selectedIndex=1;mostrar()}
+function nav(){$('nav').innerHTML=TABS.map(([k,t])=>`<button data-k="${k}" class="${k===TAB?'on':''}">${k==='correr'?`<span class="punto ${CORRIENDO?'vivo':''}"></span>`:''}${t}</button>`).join('');
+ document.querySelectorAll('main>section').forEach(s=>s.classList.toggle('on',s.id===TAB))}
+$('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;TAB=b.dataset.k;history.replaceState(null,'','#'+TAB);nav();mostrar()};
+$('met').onclick=e=>{const b=e.target.closest('button');if(!b)return;MET=b.dataset.m;[...$('met').children].forEach(x=>x.classList.toggle('on',x===b));MAT={};PULSO_I=null;cargar()};
 const vacio=t=>`<div class="vacio">${t}</div>`;
-function mostrar(){({pulso,respuestas,fanouts,competencia,brujula,comparar,sala,prompts:verPrompts,manual}[TAB]||(()=>{}))()}
-const card=(t,m)=>`<div class="card"><h3>${t}</h3><div class="big">${pc(m.mencion_categoria)}</div><div class="sub" style="margin-bottom:6px">mención en categoría (${m.categoria_n} resp.)</div>
-<div class="kv"><span>Primer lugar</span><b>${pc(m.primer_lugar)}</b></div><div class="kv"><span>Posición promedio</span><b>${m.posicion_promedio??'—'}</b></div>
-<div class="kv"><span>Mención en marca</span><b>${pc(m.mencion_marca)}</b></div><div class="kv"><span>Cita dicema.com.gt</span><b>${pc(m.cita_sitio)}</b></div>
-${m.confusiones?`<div class="kv"><span class="conf">Confusiones</span><b class="conf">${m.confusiones}</b></div>`:''}${m.errores?`<div class="kv"><span class="err">Errores</span><b class="err">${m.errores}</b></div>`:''}</div>`;
-function pulso(){if(R.vacio)return $('pulso_c').innerHTML=vacio(MET==='API'?'Corre la primera medición desde la Sala de control.':'Registra o importa mediciones manuales.');
- const u=R.pulso[R.pulso.length-1];
- $('pulso_c').innerHTML=`<div class="cards">${card('Todos los motores',u.todos)}${R.motores.filter(m=>u.motores[m]).map(m=>card(N(m),u.motores[m])).join('')}</div>
- <h3>Mención en categoría por corrida</h3><div class="wrap"><table><tr><th>Corrida</th><th>Fecha</th><th>Origen</th><th class="n">Todos</th>${R.motores.map(m=>`<th class="n">${N(m)}</th>`).join('')}</tr>
- ${R.pulso.slice().reverse().map(p=>`<tr><td>${p.corrida}</td><td>${fecha(p.inicio)}</td><td>${esc(p.origen||'')}${p.nota?' · '+esc(p.nota):''}</td><td class="n"><b>${pc(p.todos.mencion_categoria)}</b></td>${R.motores.map(m=>`<td class="n">${p.motores[m]?pc(p.motores[m].mencion_categoria):'—'}</td>`).join('')}</tr>`).join('')}</table></div>`}
+const sinDatos=()=>vacio(MET==='API'?'Todavía no hay corridas por API. Ve a <b>Correr</b> y lanza la primera.':'Todavía no hay mediciones manuales. Regístralas o impórtalas en <b>Manual</b>.');
+async function cargar(){R=await api('/api/resumen?metodo='+MET);
+ const opts=R.vacio?'':R.corridas.slice().reverse().map(c=>`<option value="${c.id}">Corrida ${c.id} · ${fecha(c.inicio)} · ${esc(c.origen||'')}${c.nota?' · '+esc(c.nota):''}</option>`).join('');
+ $('r_corrida').innerHTML=opts;$('a_a').innerHTML=opts;$('a_b').innerHTML=opts;if(!R.vacio&&R.corridas.length>1)$('a_a').selectedIndex=R.corridas.length-1;
+ $('f_csv').href='/api/fanouts.csv?metodo='+MET;mostrar()}
+function mostrar(){({correr,pulso,respuestas,competencia,brujula,fanouts,comparar,preguntas,manual}[TAB])()}
+const motoresR=()=>ORDEN.filter(m=>R.motores&&R.motores.includes(m));
+const delta=(a,b,inv)=>{if(a==null||b==null)return'<span class="delta">—</span>';const d=+(a-b).toFixed(1);if(!d)return'<span class="delta">igual que la corrida anterior</span>';const bueno=inv?d<0:d>0;
+ return `<span class="delta ${bueno?'sube':'baja'}">${d>0?'▲':'▼'} ${Math.abs(d)}${inv?' lugares':' pts'} vs anterior</span>`};
+
+/* ---------------- Pulso ---------------- */
+function pulso(){const c=$('pulso_c');if(R.vacio||!R.pulso.length)return c.innerHTML=`<h2>Pulso</h2>`+sinDatos();
+ const P=R.pulso;if(PULSO_I==null||PULSO_I>=P.length)PULSO_I=P.length-1;const u=P[PULSO_I],a=P[PULSO_I-1];
+ const hitos=P.map((p,i)=>{const prev=P[i-1];const d=prev&&p.todos.mencion_categoria!=null&&prev.todos.mencion_categoria!=null?p.todos.mencion_categoria-prev.todos.mencion_categoria:0;
+  return `<button class="hito ${i===PULSO_I?'on':''}" data-i="${i}"><div class="f">${fecha(p.inicio)}</div><div class="p">${pc(p.todos.mencion_categoria)}${d?` <span class="flecha ${d>0?'sube':'baja'}">${d>0?'▲':'▼'}${Math.abs(d)}</span>`:''}</div><div class="o">${esc(p.origen||'')}</div></button>`}).join('');
+ const t=u.todos,ta=a?.todos||{};
+ const otros=motoresR().filter(m=>u.motores[m]).map(m=>{const x=u.motores[m],y=a?.motores[m]||{};return `<div class="motor"><h4>${dot(m)}${N(m)}</h4>
+  <div class="fila"><span>Categoría</span><b>${pc(x.mencion_categoria)} <span class="nota">${x.categoria_n?`${Math.round((x.mencion_categoria||0)*x.categoria_n/100)}/${x.categoria_n}`:''}</span></b></div>
+  <div class="fila"><span>Posición prom.</span><b>${x.posicion_promedio!=null?'#'+x.posicion_promedio:'—'}</b></div>
+  <div class="fila"><span>Primer lugar</span><b>${pc(x.primer_lugar)}</b></div><div class="fila"><span>Marca</span><b>${pc(x.mencion_marca)}</b></div>
+  <div class="fila"><span>Cita dicema.com.gt</span><b>${pc(x.cita_sitio)}</b></div>${x.confusiones?`<div class="fila"><span class="conf">Confusiones</span><b class="conf">${x.confusiones}</b></div>`:''}${x.errores?`<div class="fila"><span class="err">Errores</span><b class="err">${x.errores}</b></div>`:''}
+  <div class="delta" style="margin-top:6px">${y.mencion_categoria!=null&&x.mencion_categoria!=null&&x.mencion_categoria!==y.mencion_categoria?`<span class="delta ${x.mencion_categoria>y.mencion_categoria?'sube':'baja'}">${x.mencion_categoria>y.mencion_categoria?'▲':'▼'} ${Math.abs(x.mencion_categoria-y.mencion_categoria)} pts vs anterior</span>`:''}</div></div>`}).join('');
+ c.innerHTML=`<h2>Línea de tiempo</h2><p class="lead">Viendo ${fecha(u.inicio)} · ${esc(u.origen||'')} · corrida ${PULSO_I+1} de ${P.length}. El porcentaje de cada corrida es la mención de Dicema en preguntas de categoría, sumando todas las IAs.</p>
+  <div class="linea" id="hitos">${hitos}</div>
+  <h3>Todos los motores <span class="nota">· la meta: que recomienden a Dicema primero</span></h3>
+  <div class="meta"><div><div class="k">Mención en categoría</div><div class="v">${pc(t.mencion_categoria)}</div>${delta(t.mencion_categoria,ta.mencion_categoria)}<div class="nota">${t.categoria_n} respuestas</div></div>
+  <div><div class="k">Posición promedio</div><div class="v">${t.posicion_promedio!=null?'#'+t.posicion_promedio:'—'}</div>${delta(t.posicion_promedio,ta.posicion_promedio,true)}<div class="nota">en respuestas con lista</div></div>
+  <div><div class="k">Primer lugar</div><div class="v">${pc(t.primer_lugar)}</div>${delta(t.primer_lugar,ta.primer_lugar)}<div class="nota">de las preguntas de categoría</div></div>
+  <div><div class="k">Mención en marca</div><div class="v">${pc(t.mencion_marca)}</div>${delta(t.mencion_marca,ta.mencion_marca)}<div class="nota">${t.marca_n} respuestas</div></div></div>
+  <h3>Por motor</h3><div class="motores">${otros}</div>
+  <h3>Tendencia</h3><div class="filtros"><div class="seg" id="serie"><button data-s="mencion_categoria" class="${SERIE==='mencion_categoria'?'on':''}">Mención en categoría</button><button data-s="primer_lugar" class="${SERIE==='primer_lugar'?'on':''}">Primer lugar</button><button data-s="mencion_marca" class="${SERIE==='mencion_marca'?'on':''}">Mención en marca</button></div>
+  <button class="mini ${VER_TABLA?'on':''}" id="vtabla">${VER_TABLA?'Ver gráfica':'Ver como tabla'}</button></div>
+  <div class="caja pad grafica" id="graf"></div>`;
+ $('hitos').onclick=e=>{const b=e.target.closest('.hito');if(b){PULSO_I=+b.dataset.i;pulso()}};
+ $('serie').onclick=e=>{const b=e.target.closest('button');if(b){SERIE=b.dataset.s;pulso()}};$('vtabla').onclick=()=>{VER_TABLA=!VER_TABLA;pulso()};
+ $('graf').innerHTML=VER_TABLA?tablaPulso():grafica();const h=$('hitos');h.scrollLeft=h.scrollWidth}
+function tablaPulso(){const ms=motoresR();return `<div class="tabla"><table><tr><th>Corrida</th><th>Origen</th><th class="n">Todos</th>${ms.map(m=>`<th class="n">${N(m)}</th>`).join('')}</tr>${R.pulso.slice().reverse().map(p=>`<tr><td>${fecha(p.inicio)}</td><td>${esc(p.origen||'')}${p.nota?' · '+esc(p.nota):''}</td><td class="n"><b>${pc(p.todos[SERIE])}</b></td>${ms.map(m=>`<td class="n">${p.motores[m]?pc(p.motores[m][SERIE]):'—'}</td>`).join('')}</tr>`).join('')}</table></div>`}
+function grafica(){const P=R.pulso,ms=motoresR(),W=Math.max(340,Math.min(1200,($('graf')?.clientWidth||1000)-44)),H=300,L=44,Rr=16,T=16,B=36,n=P.length;const x=i=>n<2?L+(W-L-Rr)/2:L+i*(W-L-Rr)/(n-1),y=v=>T+(100-v)*(H-T-B)/100;
+ const css=getComputedStyle(document.documentElement);const col=m=>css.getPropertyValue('--'+m).trim();const linea=(vals,c,w)=>{const pts=vals.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);if(!pts.length)return'';
+  return `<polyline fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round" points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="${w+1}" fill="${c}"/>`).join('')};
+ let g='';for(const v of [0,25,50,75,100])g+=`<line x1="${L}" x2="${W-Rr}" y1="${y(v)}" y2="${y(v)}" stroke="${css.getPropertyValue('--line')}"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="12" fill="${css.getPropertyValue('--muted')}">${v}%</text>`;
+ const mismoDia=new Set(P.map(p=>p.inicio.slice(0,10))).size===1;const paso=Math.max(1,Math.ceil(n/8));
+ P.forEach((p,i)=>{if(i%paso===0||i===n-1){const t=mismoDia?p.inicio.slice(11,16):fecha(p.inicio).split(',')[0];g+=`<text x="${x(i)}" y="${H-10}" text-anchor="${n>1&&i===n-1?'end':n>1&&i===0?'start':'middle'}" font-size="12" fill="${css.getPropertyValue('--muted')}">${esc(t)}</text>`}});
+ ms.forEach(m=>g+=linea(P.map(p=>p.motores[m]?.[SERIE]??null),col(m),2));g+=linea(P.map(p=>p.todos[SERIE]),col('ink')||'#1f1f1f',3.5);
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Tendencia por corrida">${g}</svg><div class="filtros" style="margin:10px 0 0">${ms.map(m=>`<span class="nota">${dot(m)}${N(m)}</span>`).join('')}<span class="nota"><span class="dot" style="background:var(--ink)"></span>Todos</span></div>`}
+
+/* ---------------- Respuestas ---------------- */
 const cls=v=>v.startsWith('#')?'pos':v==='Sí'?'si':v==='No'?'no':v==='error'?'err':'conf';
-let MAT=null;
-async function respuestas(){if(R.vacio)return $('r_c').innerHTML=vacio('Sin corridas todavía.');const cid=$('r_corrida').value;$('r_csv').href='/api/exportar?corrida='+cid;
- if(!MAT||MAT.corrida!=cid)MAT=await api('/api/matriz?corrida='+cid);const q=$('r_f').value.toLowerCase();
- const ids=Object.keys(MAT.prompts).sort((a,b)=>(a.endsWith('-EN')-b.endsWith('-EN'))||a.localeCompare(b));
- $('r_c').innerHTML=`<div class="wrap"><table><tr><th>ID</th><th>Pregunta</th>${MAT.motores.map(m=>`<th>${N(m)}</th>`).join('')}</tr>${ids.filter(id=>{const p=MAT.prompts[id];return !q||(id+' '+p.texto+' '+p.marca+' '+p.familia).toLowerCase().includes(q)}).map(id=>{const p=MAT.prompts[id];
- return `<tr><td>${esc(id)}${p.tipo==='Marca'?' <span class="pill">marca</span>':''}</td><td>${esc(p.texto)}</td>${MAT.motores.map(m=>`<td>${(MAT.celdas[id]?.[m]||[]).map(c=>`<span class="celda ${cls(c.v)}" data-r="${c.id}">${c.v}</span>`).join(' ')||'—'}</td>`).join('')}</tr>`}).join('')}</table></div>`}
+const rango=v=>!v||v==='No'||v==='confusión'||v==='error'?0:v.startsWith('#')?100-(+v.slice(1)):50;
+async function matriz(cid){if(!MAT[cid])MAT[cid]=await api('/api/matriz?corrida='+cid);return MAT[cid]}
+async function respuestas(){if(R.vacio)return $('r_c').innerHTML=sinDatos();const cid=+$('r_corrida').value;$('r_csv').href='/api/exportar?corrida='+cid;
+ const M=await matriz(cid);const idx=R.corridas.findIndex(c=>c.id===cid);const prev=idx>0?await matriz(R.corridas[idx-1].id):null;
+ const q=$('r_f').value.toLowerCase();const ms=ORDEN.filter(m=>M.motores.includes(m));const ids=Object.keys(M.prompts).sort((a,b)=>(a.endsWith('-EN')-b.endsWith('-EN'))||a.localeCompare(b));
+ $('r_c').innerHTML=`<div class="caja"><div class="tabla"><table><tr><th>Pregunta</th>${ms.map(m=>`<th>${dot(m)}${N(m)}</th>`).join('')}</tr>${ids.filter(id=>{const p=M.prompts[id];return !q||(id+' '+p.texto+' '+p.marca+' '+p.familia).toLowerCase().includes(q)}).map(id=>{const p=M.prompts[id];
+  return `<tr><td><span class="ids">${esc(id)}</span>${p.tipo==='Marca'?' <span class="chip">marca</span>':p.tipo==='Libre'?' <span class="chip">libre</span>':''}<br>${esc(p.texto)}</td>${ms.map(m=>{const cs=M.celdas[id]?.[m]||[];if(!cs.length)return'<td class="cero">—</td>';
+   const pv=prev?.celdas[id]?.[m]?.[0]?.v;return `<td>${cs.map((c,i)=>{let f='';if(i===0&&pv){const d=rango(c.v)-rango(pv);if(d)f=`<span class="flecha ${d>0?'sube':'baja'}">${d>0?'▲':'▼'}</span>`}return `<span class="celda ${cls(c.v)}" data-r="${c.id}">${c.v}</span>${f}`}).join(' ')}</td>`}).join('')}</tr>`}).join('')}</table></div></div>`}
 $('r_corrida').onchange=respuestas;$('r_f').oninput=respuestas;
-$('r_c').onclick=async e=>{const id=e.target.dataset.r;if(!id)return;const d=await api('/api/respuesta?id='+id);
- $('dlg_c').innerHTML=`<h2>${esc(N(d.motor))} · ${esc(d.prompt_id)} · intento ${d.intento}</h2><p class="sub">${esc(d.prompt)}<br>${fecha(d.fecha)} · ${esc(d.modelo||'')}</p>
- <p>${d.error?`<span class="err">Error: ${esc(d.error)}</span>`:`Menciona a Dicema: <b>${d.menciona?'Sí':'No'}</b>${d.posicion?` · posición <b>#${d.posicion}</b>`:''} · cita el sitio: <b>${d.cita_sitio?'Sí':'No'}</b>${d.posible_confusion?' · <span class="conf">posible confusión con otra empresa</span>':''}`}</p>
- ${d.busquedas.length?`<h3>Búsquedas internas</h3><p>${d.busquedas.map(b=>`<span class="pill">${esc(b)}</span>`).join(' ')}</p>`:''}
+async function detalle(id){const d=await api('/api/respuesta?id='+id);
+ $('dlg_c').innerHTML=`<h2>${dot(d.motor)}${esc(N(d.motor))} · ${esc(d.prompt_id)}</h2><p class="lead" style="margin-bottom:10px">${esc(d.prompt)}</p><p class="nota">${fecha(d.fecha)} · ${esc(d.modelo||'')} · intento ${d.intento}</p>
+ <p>${d.error?`<span class="err">Error: ${esc(d.error)}</span>`:`Menciona a Dicema: <b>${d.menciona?'Sí':'No'}</b>${d.posicion?` · lugar <b>#${d.posicion}</b>`:''} · cita dicema.com.gt: <b>${d.cita_sitio?'Sí':'No'}</b>${d.posible_confusion?' · <span class="conf">posible confusión con otra empresa</span>':''}`}</p>
+ ${d.busquedas.length?`<h3>Búsquedas internas</h3><p>${d.busquedas.map(b=>`<span class="chip">${esc(b)}</span>`).join(' ')}</p>`:''}
  ${d.competidores.length?`<h3>Competidores nombrados</h3><p>${d.competidores.map(esc).join(', ')}</p>`:''}
  ${d.texto?`<h3>Respuesta</h3><pre>${esc(d.texto)}</pre>`:''}${d.notas?`<h3>Notas</h3><p>${esc(d.notas)}</p>`:''}
- ${d.fuentes.length?`<h3>Fuentes</h3><ul>${d.fuentes.slice(0,40).map(f=>`<li>${f.citada?'<b>citada</b> · ':''}${f.url.startsWith('http')?`<a href="${esc(f.url)}" target="_blank" rel="noopener noreferrer">${esc(f.titulo||f.dominio||f.url)}</a>`:esc(f.url)}</li>`).join('')}</ul>`:''}`;dlg.showModal()};
-let FMOT='';
-function fanouts(){if(R.vacio)return $('f_c').innerHTML=vacio('Sin datos todavía.');
- $('f_m').innerHTML=['',...R.motores].map(m=>`<button class="pill ${m===FMOT?'on':''}" data-m="${m}">${m?N(m):'Todos'}</button>`).join('');
- const q=$('f_f').value.toLowerCase(),h=$('f_h').checked;const rows=R.fanouts.filter(f=>(!q||f.b.includes(q))&&(!FMOT||f.motores.includes(FMOT))&&(!h||(f.motores.length>=2&&!f.con)));
- const n2=R.fanouts.filter(f=>f.motores.length>=2).length,hue=R.fanouts.filter(f=>f.motores.length>=2&&!f.con).length;
- $('f_c').innerHTML=`<div class="cards"><div class="card"><h3>Búsquedas distintas</h3><div class="big">${R.fanouts.length}</div></div><div class="card"><h3>Las hacen 2 o más motores</h3><div class="big">${n2}</div></div><div class="card"><h3>Huecos</h3><div class="big conf">${hue}</div><div class="sub">2+ motores y nunca traen a Dicema</div></div></div>
- <div class="wrap"><table><tr><th>Búsqueda interna</th><th class="n">Veces</th><th>Motores</th><th>Preguntas</th><th class="n">Con Dicema</th><th class="n">Cita sitio</th></tr>${rows.slice(0,500).map(f=>`<tr class="${f.motores.length>=2&&!f.con?'hueco':''}"><td>${esc(f.b)}</td><td class="n">${f.veces}</td><td>${f.motores.map(N).join(', ')}</td><td>${f.prompts.slice(0,8).map(esc).join(' ')}${f.prompts.length>8?` <span class="sub">+${f.prompts.length-8}</span>`:''}</td><td class="n">${f.con}</td><td class="n">${f.cita}</td></tr>`).join('')||'<tr><td colspan="6" class="sub">Sin búsquedas para este filtro.</td></tr>'}</table></div>`}
-$('f_m').onclick=e=>{if(e.target.dataset.m===undefined)return;FMOT=e.target.dataset.m;fanouts()};$('f_f').oninput=fanouts;$('f_h').onchange=fanouts;
-const barras=(arr,hl)=>{const mx=Math.max(1,...arr.map(x=>x[1]));return arr.map(([k,v])=>`<div class="kv"><span>${esc(k)}</span><span><span class="bar ${String(k).toLowerCase().includes(hl)?'hl':''}" style="width:${Math.round(140*v/mx)}px"></span> <b>${v}</b></span></div>`).join('')};
-function competencia(){if(R.vacio)return $('c_c').innerHTML=vacio('Sin datos todavía.');
- $('c_c').innerHTML=`<div class="grid2"><div class="card"><h3>Empresas nombradas</h3>${barras(R.empresas.slice().sort((a,b)=>b[1]-a[1]),'dicema')}</div><div class="card"><h3>Sitios consultados</h3>${barras(R.dominios,'dicema')}</div></div>`}
-function brujula(){if(R.vacio)return $('b_c').innerHTML=vacio('Sin datos todavía.');
- $('b_c').innerHTML=`<div class="wrap"><table><tr><th>Sitio</th><th class="n">Con Dicema (${R.n_con})</th><th class="n">Sin Dicema (${R.n_sin})</th><th>Lectura</th></tr>${R.brujula.map(b=>{const tc=R.n_con?b.con/R.n_con:0,ts=R.n_sin?b.sin/R.n_sin:0;
- const l=b.d.includes('dicema')?'propio':tc>ts*1.5?'trae a Dicema':ts>tc*1.5?'deja fuera a Dicema':'neutral';
- return `<tr><td>${esc(b.d)}</td><td class="n">${b.con}</td><td class="n">${b.sin}</td><td class="${l==='deja fuera a Dicema'?'conf':l==='neutral'?'no':'si'}">${l}</td></tr>`}).join('')}</table></div>`}
+ ${d.fuentes.length?`<h3>Fuentes</h3><ul>${d.fuentes.slice(0,40).map(f=>`<li>${f.citada?'<b>citada</b> · ':''}${/^https?:/.test(f.url)?`<a href="${esc(f.url)}" target="_blank" rel="noopener noreferrer">${esc(f.titulo||f.dominio||f.url)}</a>`:esc(f.url)}</li>`).join('')}</ul>`:''}`;dlg.showModal()}
+document.addEventListener('click',e=>{const c=e.target.closest('[data-r]');if(c)detalle(c.dataset.r)});
+
+/* ---------------- Competencia ---------------- */
+const barras=(arr,yo)=>{const mx=Math.max(1,...arr.map(x=>x[1]));return `<div class="barras">${arr.map(([k,v])=>`<div class="b ${String(k).toLowerCase()===yo?'yo':''}"><span>${esc(k)}</span><div class="t"><div style="width:${Math.max(2,100*v/mx)}%"></div></div><b class="n" style="text-align:right;font-weight:500">${v}</b></div>`).join('')}</div>`};
+function competencia(){const c=$('comp_c');if(R.vacio)return c.innerHTML='<h2>Competencia</h2>'+sinDatos();
+ const emp=R.empresas.slice().sort((a,b)=>b[1]-a[1]);const lugar=emp.findIndex(e=>e[0]==='Dicema')+1;
+ c.innerHTML=`<h2>Competencia</h2><p class="lead">Acumulado de ${R.corridas.length} corrida(s). Solo preguntas de categoría, es decir, cuando el cliente pide una recomendación sin nombrar a Dicema.</p>
+ <div class="rejilla"><div class="caja pad"><h3>Empresas más nombradas</h3><p class="nota" style="margin-top:-6px">${lugar?`Dicema va en el lugar <b class="conf">${lugar}</b>`:'Dicema no aparece todavía'}</p>${barras(emp,'dicema')}</div>
+ <div class="caja pad"><h3>Fuentes más citadas</h3><p class="nota" style="margin-top:-6px">Dónde leen las IAs antes de responder</p>${barras(R.dominios,'dicema.com.gt')}</div></div>`}
+
+/* ---------------- Brújula ---------------- */
+function brujula(){const c=$('bru_c');if(R.vacio)return c.innerHTML='<h2>Brújula de fuentes</h2>'+sinDatos();
+ const t=R.tipos_con,et={'propia':'citó dicema.com.gt','fabricante':'citó a los fabricantes (3M, Sherwin-Williams, Henkel…)','competidor':'citó sitios de competidores','tienda en línea':'citó tiendas en línea','directorio y redes':'citó directorios, mapas y redes','otra':'citó otras fuentes (guías, medios)'};
+ const trae=R.brujula.filter(b=>b.con>0&&b.con/Math.max(1,R.n_con)>=b.sin/Math.max(1,R.n_sin)).slice(0,15);const deja=R.brujula.filter(b=>b.sin>0&&b.con===0).slice(0,15);
+ c.innerHTML=`<h2>Brújula de fuentes</h2><p class="lead">Qué está leyendo cada IA cuando sí recomienda a Dicema, y qué lee cuando no. Solo preguntas de categoría; las cifras cambian con cada corrida.</p>
+ <p class="nota">${R.n_con} respuestas con Dicema · ${R.n_sin} sin ella · ${R.corridas.length} corrida(s)</p>
+ <div class="tarjetas tres">${Object.keys(et).map(k=>`<div class="tarjeta"><div class="et">Cuando Dicema aparece, la IA ${et[k]}</div><div class="num ${k==='propia'?'verde':''}">${pc(t[k])}</div></div>`).join('')}</div>
+ <div class="rejilla"><div><h3>Fuentes que traen a Dicema</h3><p class="nota" style="margin-top:-6px">Aparecen más en las respuestas con Dicema que en las que no. Son las que hay que seguir alimentando.</p>
+ <div class="caja"><div class="tabla"><table><tr><th>Fuente</th><th class="n">Con Dicema</th><th class="n">Sin Dicema</th><th>Tipo</th></tr>${trae.map(b=>`<tr><td>${esc(b.d)}</td><td class="n">${b.con}</td><td class="n">${b.sin}</td><td>${esc(b.tipo)}</td></tr>`).join('')||'<tr><td colspan="4" class="cero">Sin datos</td></tr>'}</table></div></div></div>
+ <div><h3>Fuentes que dejan fuera a Dicema</h3><p class="nota" style="margin-top:-6px">La IA las citó y en ninguna apareció Dicema. Si Dicema estuviera ahí, la respuesta cambiaría.</p>
+ <div class="caja"><div class="tabla"><table><tr><th>Fuente</th><th class="n">Respuestas sin Dicema</th><th>Tipo</th></tr>${deja.map(b=>`<tr><td>${esc(b.d)}</td><td class="n">${b.sin}</td><td>${esc(b.tipo)}</td></tr>`).join('')||'<tr><td colspan="3" class="cero">Sin datos</td></tr>'}</table></div></div></div></div>`}
+
+/* ---------------- Fan-outs ---------------- */
+function fanouts(){if(R.vacio){$('f_kpi').innerHTML='';$('f_mot').innerHTML='';return $('f_c').innerHTML=sinDatos()}
+ const ms=motoresR();$('f_mot').innerHTML=['',...ms].map(m=>`<button data-m="${m}" class="${m===FMOT?'on':''}">${m?dot(m)+N(m):'Todos'}</button>`).join('');
+ const F=R.fanouts,n2=F.filter(f=>f.motores.length>=2),hue=n2.filter(f=>!f.con);
+ $('f_kpi').innerHTML=`<div class="tarjeta"><div class="et">Búsquedas distintas</div><div class="num">${F.length}</div></div><div class="tarjeta"><div class="et">Las hacen 2 o más motores</div><div class="num">${n2.length}</div><div class="pie">las prioritarias</div></div>
+ <div class="tarjeta"><div class="et">Nunca traen a Dicema</div><div class="num rojo">${hue.length}</div><div class="pie">se repiten y Dicema no aparece</div></div><div class="tarjeta"><div class="et">Respuestas analizadas</div><div class="num">${R.n_respuestas}</div><div class="pie">${R.corridas.length} corrida(s) ${MET==='API'?'por API':'manuales'}</div></div>`;
+ const q=$('f_f').value.toLowerCase(),h=$('f_h').checked;const rows=F.filter(f=>(!q||f.b.includes(q))&&(!FMOT||f.motores.includes(FMOT))&&(!FIDI||f.prompts.some(p=>FIDI==='EN'?p.endsWith('-EN'):!p.endsWith('-EN')))&&(!h||(f.motores.length>=2&&!f.con)));
+ const lim=rows.slice(0,150);
+ $('f_c').innerHTML=`<div class="caja"><div class="tabla"><table><tr><th>Búsqueda interna</th><th class="n">Veces</th><th>Motores</th><th>Preguntas</th><th class="n">Con Dicema</th><th class="n">Cita dicema.com.gt</th></tr>${lim.map(f=>`<tr class="${f.motores.length>=2&&!f.con?'hueco':''}"><td>${esc(f.b)}</td><td class="n"><b>${f.veces}</b></td><td style="white-space:nowrap">${ORDEN.filter(m=>f.motores.includes(m)).map(dot).join('')}</td><td class="ids">${f.prompts.slice(0,6).map(esc).join(' ')}${f.prompts.length>6?` +${f.prompts.length-6}`:''}</td><td class="n ${f.con?'mid':'cero'}">${f.con}</td><td class="n ${f.cita?'mid':'cero'}"><b>${f.cita}</b></td></tr>`).join('')||'<tr><td colspan="6" class="cero">Sin búsquedas para este filtro.</td></tr>'}</table></div>
+ ${rows.length>150?`<p class="nota" style="padding:0 16px 12px">Se muestran 150 de ${rows.length}. Descarga el CSV para verlas todas.</p>`:''}</div>`}
+$('f_mot').onclick=e=>{const b=e.target.closest('button');if(!b)return;FMOT=b.dataset.m;fanouts()};
+$('f_idi').onclick=e=>{const b=e.target.closest('button');if(!b)return;FIDI=b.dataset.i;[...$('f_idi').children].forEach(x=>x.classList.toggle('on',x===b));fanouts()};
+$('f_f').oninput=fanouts;$('f_h').onchange=fanouts;
+
+/* ---------------- Antes y después ---------------- */
 async function comparar(){if(R.vacio||R.corridas.length<2)return $('a_c').innerHTML=vacio('Hacen falta al menos dos corridas del mismo método.');
- const c=await api(`/api/comparar?a=${$('a_a').value}&b=${$('a_b').value}`);const li=x=>`<div class="kv"><span><b>${esc(x.id)}</b> ${N(x.motor)}: ${x.de} → ${x.a}<br><span class="sub">${esc(x.texto)}</span></span></div>`;
- $('a_c').innerHTML=`<div class="cards"><div class="card"><h3>Mejoraron</h3><div class="big si">${c.suben.length}</div></div><div class="card"><h3>Empeoraron</h3><div class="big conf">${c.bajan.length}</div></div><div class="card"><h3>Igual</h3><div class="big">${c.iguales}</div></div></div>
- <div class="grid2"><div class="card"><h3>Subidas</h3>${c.suben.map(li).join('')||'<span class="sub">Ninguna</span>'}</div><div class="card"><h3>Bajadas</h3>${c.bajan.map(li).join('')||'<span class="sub">Ninguna</span>'}</div>
- <div class="card"><h3>Fuentes nuevas en "después"</h3>${c.nuevas.map(([d,n])=>`<div class="kv"><span>${esc(d)}</span><b>${n}</b></div>`).join('')||'<span class="sub">Ninguna</span>'}</div><div class="card"><h3>Fuentes que dejaron de citarse</h3>${c.perdidas.map(([d,n])=>`<div class="kv"><span>${esc(d)}</span><b>${n}</b></div>`).join('')||'<span class="sub">Ninguna</span>'}</div></div><br>
- <div class="wrap"><table><tr><th>ID</th><th>Pregunta</th>${c.motores.map(m=>`<th>${N(m)}</th>`).join('')}</tr>${c.filas.map(f=>`<tr><td>${esc(f.id)}</td><td>${esc(f.texto)}</td>${c.motores.map(m=>{const [a,b]=f.celdas[m]||[];return `<td>${a?`<span class="${cls(a)}">${a}</span>`:'—'} → ${b?`<span class="${cls(b)}">${b}</span>`:'—'}</td>`}).join('')}</tr>`).join('')}</table></div>`}
+ const c=await api(`/api/comparar?a=${$('a_a').value}&b=${$('a_b').value}`);const ms=ORDEN.filter(m=>c.motores.includes(m));
+ const li=x=>`<div class="fila" style="display:block"><b>${esc(x.id)}</b> ${dot(x.motor)}${N(x.motor)}: <span class="${cls(x.de)}">${x.de}</span> → <span class="${cls(x.a)}">${x.a}</span><br><span class="nota">${esc(x.texto)}</span></div>`;
+ const fl=a=>a.map(([d,n])=>`<div class="fila"><span>${esc(d)}</span><b>${n}</b></div>`).join('')||'<span class="nota">Ninguna</span>';
+ $('a_c').innerHTML=`<div class="tarjetas"><div class="tarjeta"><div class="et">Mejoraron</div><div class="num verde">${c.suben.length}</div></div><div class="tarjeta"><div class="et">Empeoraron</div><div class="num rojo">${c.bajan.length}</div></div><div class="tarjeta"><div class="et">Igual</div><div class="num">${c.iguales}</div></div></div>
+ <div class="rejilla"><div class="caja pad"><h3>Subidas</h3>${c.suben.map(li).join('')||'<span class="nota">Ninguna</span>'}</div><div class="caja pad"><h3>Bajadas</h3>${c.bajan.map(li).join('')||'<span class="nota">Ninguna</span>'}</div>
+ <div class="caja pad"><h3>Fuentes nuevas en la corrida de después</h3>${fl(c.nuevas)}</div><div class="caja pad"><h3>Fuentes que dejaron de citarse</h3>${fl(c.perdidas)}</div></div>
+ <div class="caja"><div class="tabla"><table><tr><th>Pregunta</th>${ms.map(m=>`<th>${dot(m)}${N(m)}</th>`).join('')}</tr>${c.filas.map(f=>`<tr><td><span class="ids">${esc(f.id)}</span><br>${esc(f.texto)}</td>${ms.map(m=>{const [a,b]=f.celdas[m]||[];return `<td style="white-space:nowrap">${a?`<span class="${cls(a)}">${a}</span>`:'<span class="cero">—</span>'} → ${b?`<span class="${cls(b)}">${b}</span>`:'<span class="cero">—</span>'}</td>`}).join('')}</tr>`).join('')}</table></div></div>`}
 $('a_a').onchange=comparar;$('a_b').onchange=comparar;
-let SEL=new Set(),POLL=null;
-async function sala(){const m=await api('/api/motores');MOTORES=m.motores;
- $('s_m').innerHTML=MOTORES.map(x=>`<label class="chk"><input type="checkbox" class="s_mot" value="${x.id}" ${x.con_clave&&x.activo?'checked':''} ${x.con_clave?'':'disabled'}> <span>${x.nombre} <span class="sub">${esc(x.modelo||'')}${x.con_clave?'':' · falta clave de API'}</span></span></label>`).join('')+`<label class="chk"><input type="checkbox" disabled> <span>Copilot <span class="sub">sin API: se mide a mano</span></span></label>`;
- $('s_d').textContent=m.diaria&&!['no','off','0'].includes(m.diaria.toLowerCase())?`Corrida automática diaria a las ${m.diaria} (hora de Guatemala), con todas las preguntas activas.`:'Corrida automática diaria apagada.';
- PROMPTS=(await api('/api/prompts')).prompts;if(!SEL.size)PROMPTS.filter(p=>p.activo).forEach(p=>SEL.add(p.id));
- const marcas=[...new Set(PROMPTS.map(p=>p.marca))];$('s_marcas').innerHTML=marcas.map(x=>`<button class="pill" data-mar="${esc(x)}">${esc(x)}</button>`).join('')+'<button class="pill" data-idi="ES">ES</button><button class="pill" data-idi="EN">EN</button>';
- pintarSel();estado()}
-function pintarSel(){const q=$('s_f').value.toLowerCase();$('s_p').innerHTML=PROMPTS.filter(p=>!q||(p.id+' '+p.texto+' '+p.marca).toLowerCase().includes(q)).map(p=>`<label class="chk"><input type="checkbox" class="s_pr" value="${esc(p.id)}" ${SEL.has(p.id)?'checked':''}> <span><b>${esc(p.id)}</b> ${esc(p.texto)}${p.activo?'':' <span class="sub">(inactiva)</span>'}</span></label>`).join('');cuenta()}
-function cuenta(){const nm=document.querySelectorAll('.s_mot:checked').length*1,r=+$('s_r').value;$('s_cuenta').textContent=`${SEL.size} pregunta(s) × ${nm} motor(es) × ${r} = ${SEL.size*nm*r} consultas`}
-$('s_p').onchange=e=>{if(!e.target.classList.contains('s_pr'))return;e.target.checked?SEL.add(e.target.value):SEL.delete(e.target.value);cuenta()};
-$('s_m').onchange=cuenta;$('s_r').onchange=cuenta;$('s_f').oninput=pintarSel;
-$('s_all').onclick=()=>{SEL=new Set(PROMPTS.filter(p=>p.activo).map(p=>p.id));pintarSel()};$('s_none').onclick=()=>{SEL.clear();pintarSel()};
-$('s_marcas').onclick=e=>{const mar=e.target.dataset.mar,idi=e.target.dataset.idi;if(mar===undefined&&!idi)return;SEL=new Set(PROMPTS.filter(p=>p.activo&&(mar!==undefined?p.marca===mar:p.idioma===idi)).map(p=>p.id));pintarSel()};
-$('s_go').onclick=async()=>{const ms=[...document.querySelectorAll('.s_mot:checked')].map(x=>x.value);if(!SEL.size||!ms.length)return alert('Elige al menos una pregunta y un motor.');
- const n=SEL.size*ms.length*(+$('s_r').value);if(n>40&&!confirm(`Se harán ${n} consultas a las APIs. ¿Continuar?`))return;
- try{await api('/api/correr',{method:'POST',body:JSON.stringify({prompts:[...SEL],motores:ms,repeticiones:+$('s_r').value,nota:$('s_n').value})});estado()}catch(e){alert(e.message)}};
-async function estado(){const e=await api('/api/estado');$('s_bar').style.width=(e.total?Math.round(100*e.hechas/e.total):0)+'%';
- $('s_est').textContent=e.corrida?(e.corriendo?`Corrida ${e.corrida} en curso: ${e.hechas} de ${e.total}`:`Corrida ${e.corrida} terminada: ${e.hechas} de ${e.total}`):'Sin corridas en curso.';
- $('s_log').textContent=e.log.slice().reverse().join('\n');$('s_go').disabled=e.corriendo;
- clearTimeout(POLL);if(e.corriendo)POLL=setTimeout(estado,2500);else if(e.corrida&&TAB==='sala'&&$('s_go').dataset.ult!=e.corrida){$('s_go').dataset.ult=e.corrida;MAT=null;if(MET==='API')cargar()}}
-async function verPrompts(){PROMPTS=(await api('/api/prompts')).prompts;const q=$('p_f').value.toLowerCase();
- $('p_c').innerHTML=`<div class="wrap"><table><tr><th>ID</th><th>Pregunta</th><th>Tipo</th><th>Marca</th><th>Familia</th><th>Intención</th><th>Idioma</th><th>Activa</th><th></th></tr>${PROMPTS.filter(p=>!q||(p.id+' '+p.texto+' '+p.marca+' '+p.familia).toLowerCase().includes(q)).map(p=>`<tr><td>${esc(p.id)}</td><td>${esc(p.texto)}</td><td>${esc(p.tipo)}</td><td>${esc(p.marca)}</td><td>${esc(p.familia)}</td><td>${esc(p.intencion)}</td><td>${esc(p.idioma)}</td><td>${p.activo?'Sí':'<span class="no">No</span>'}</td><td><button class="pill" data-e="${esc(p.id)}">Editar</button></td></tr>`).join('')}</table></div>`}
-$('p_f').oninput=verPrompts;
+
+/* ---------------- Correr ---------------- */
+let MODO='uno',SEL=new Set(),MOTS=[],POLL=null,DIARIA='';
+async function correr(){const m=await api('/api/motores');MOTS=m.motores;DIARIA=m.diaria;PROMPTS=(await api('/api/prompts')).prompts.filter(p=>p.tipo!=='Libre');
+ const ord=ORDEN.filter(x=>MOTS.some(y=>y.id===x));
+ if(!$('c_mot').dataset.ok){$('c_mot').dataset.ok=1;$('c_mot').innerHTML=ord.map(id=>{const x=MOTS.find(y=>y.id===id);return `<label class="nota" style="margin-right:10px" title="${esc(x.modelo||'')}"><input type="checkbox" class="c_m" value="${x.id}" ${x.con_clave&&x.activo?'checked':''} ${x.con_clave?'':'disabled'}> ${dot(x.id)}${x.nombre}${x.con_clave?'':' (sin clave)'}</label>`}).join('')+`<label class="nota" title="Copilot no tiene API: se mide a mano"><input type="checkbox" disabled> ${dot('copilot')}Copilot (manual)</label>`}
+ $('c_uno').innerHTML=PROMPTS.map(p=>`<option value="${esc(p.id)}">${esc(p.id)} · ${esc(p.texto)}</option>`).join('');
+ if(!SEL.size)PROMPTS.filter(p=>p.activo).forEach(p=>SEL.add(p.id));
+ $('c_grupos').innerHTML=[...new Set(PROMPTS.map(p=>p.marca))].map(x=>`<button class="mini" data-mar="${esc(x)}">${esc(x)}</button>`).join(' ')+' <button class="mini" data-idi="ES">ES</button> <button class="mini" data-idi="EN">EN</button>';
+ $('c_diaria').textContent=DIARIA&&!['no','off','0'].includes(DIARIA.toLowerCase())?`Corrida automática todos los días a las ${DIARIA} (hora de Guatemala) con todas las preguntas activas.`:'La corrida automática diaria está apagada.';
+ lista();estado()}
+function lista(){const q=$('c_f').value.toLowerCase();$('c_lista').innerHTML=PROMPTS.filter(p=>!q||(p.id+' '+p.texto+' '+p.marca).toLowerCase().includes(q)).map(p=>`<label class="chk"><input type="checkbox" class="c_p" value="${esc(p.id)}" ${SEL.has(p.id)?'checked':''}><span><span class="ids">${esc(p.id)}</span> ${esc(p.texto)}${p.activo?'':' <span class="nota">(inactiva)</span>'}</span></label>`).join('');cuenta()}
+function preguntasElegidas(){return MODO==='uno'?[$('c_uno').value]:MODO==='varios'?[...SEL]:[]}
+function cuenta(){const nm=document.querySelectorAll('.c_m:checked').length,r=+$('c_rep').value,np=MODO==='libre'?1:preguntasElegidas().length;$('c_cuenta').textContent=`${np} pregunta(s) × ${nm} motor(es) × ${r} = ${np*nm*r} consultas`}
+$('modo').onclick=e=>{const b=e.target.closest('button');if(!b)return;MODO=b.dataset.o;[...$('modo').children].forEach(x=>x.classList.toggle('on',x===b));['uno','varios','libre'].forEach(k=>$('m_'+k).style.display=k===MODO?'':'none');cuenta()};
+$('c_lista').onchange=e=>{if(!e.target.classList.contains('c_p'))return;e.target.checked?SEL.add(e.target.value):SEL.delete(e.target.value);cuenta()};
+$('c_mot').onchange=cuenta;$('c_rep').onchange=cuenta;$('c_uno').onchange=cuenta;$('c_f').oninput=lista;
+$('c_todas').onclick=()=>{SEL=new Set(PROMPTS.filter(p=>p.activo).map(p=>p.id));lista()};$('c_ninguna').onclick=()=>{SEL.clear();lista()};
+$('c_grupos').onclick=e=>{const b=e.target.closest('button');if(!b)return;const mar=b.dataset.mar,idi=b.dataset.idi;SEL=new Set(PROMPTS.filter(p=>p.activo&&(mar!==undefined?p.marca===mar:p.idioma===idi)).map(p=>p.id));lista()};
+$('c_go').onclick=async()=>{const ms=[...document.querySelectorAll('.c_m:checked')].map(x=>x.value);const ps=preguntasElegidas(),libre=MODO==='libre'?$('c_libre').value.trim():'';
+ if(!ms.length)return alert('Elige al menos un motor.');if(MODO==='libre'&&!libre)return alert('Escribe la pregunta.');if(MODO!=='libre'&&!ps.length)return alert('Elige al menos una pregunta.');
+ const n=(MODO==='libre'?1:ps.length)*ms.length*(+$('c_rep').value);if(n>40&&!confirm(`Se harán ${n} consultas a las APIs, con su costo. ¿Continuar?`))return;
+ try{await api('/api/correr',{method:'POST',body:JSON.stringify({prompts:MODO==='libre'?[]:ps,libre,motores:ms,repeticiones:+$('c_rep').value,nota:$('c_nota').value})});estado()}catch(e){alert(e.message)}};
+async function estado(){const e=await api('/api/estado');const antes=CORRIENDO;CORRIENDO=e.corriendo;if(antes!==CORRIENDO)nav();
+ $('c_bar').style.width=(e.total?Math.round(100*e.hechas/e.total):0)+'%';$('c_go').disabled=e.corriendo;
+ $('c_est').textContent=e.corrida?(e.corriendo?`Corrida ${e.corrida} en curso: ${e.hechas} de ${e.total} respuestas`:`Corrida ${e.corrida} terminada: ${e.hechas} de ${e.total} respuestas`):'';
+ if(TAB==='correr'){const ms=e.motores?.length?ORDEN.filter(m=>e.motores.includes(m)):ORDEN.filter(m=>MOTS.some(x=>x.id===m&&x.con_clave));
+  $('c_cols').innerHTML=ms.map(m=>{const v=e.vivo?.[m];const it=v?.items||[],u=it[it.length-1];
+   return `<div class="col"><div class="ct"><b>${dot(m)}${N(m)}</b><span class="est ${v?.estado==='pensando'?'pensando':''}">${v?(v.estado==='pensando'?'pensando… '+esc(v.actual):v.estado):'en espera'}</span></div><div class="cb">${u?`<div><span class="ids">${esc(u.pid)}</span> · <span class="celda ${cls(u.v)}" data-r="${u.rid}">${u.v}</span></div>${u.error?`<div class="err">${esc(u.error)}</div>`:''}${u.busquedas.length?`<div style="margin-top:6px">${u.busquedas.slice(0,4).map(b=>`<span class="chip">${esc(b)}</span>`).join('')}</div>`:''}<div class="ult">${esc(u.texto.slice(0,700))}${u.texto.length>700?'…':''}</div>
+    ${it.length>1?`<div class="prev">${it.slice(0,-1).reverse().slice(0,30).map(x=>`<span class="chip celda" data-r="${x.rid}">${esc(x.pid)} <span class="${cls(x.v)}">${x.v}</span></span>`).join('')}</div>`:''}`:'<span class="nota">Aprieta Correr y esta columna se enciende.</span>'}</div></div>`}).join('');
+  if(e.log.length)$('c_log').textContent=e.log.slice().reverse().join('\n')}
+ clearTimeout(POLL);if(e.corriendo)POLL=setTimeout(estado,2000);else if(antes&&!e.corriendo){MAT={};if(MET==='API')cargar()}}
+
+/* ---------------- Preguntas ---------------- */
+async function preguntas(){PROMPTS=(await api('/api/prompts')).prompts;const q=$('p_f').value.toLowerCase();
+ $('p_c').innerHTML=`<div class="caja"><div class="tabla"><table><tr><th>ID</th><th>Pregunta</th><th>Tipo</th><th>Marca</th><th>Familia</th><th>Intención</th><th>Idioma</th><th>Activa</th><th></th></tr>${PROMPTS.filter(p=>!q||(p.id+' '+p.texto+' '+p.marca+' '+p.familia).toLowerCase().includes(q)).map(p=>`<tr><td class="ids">${esc(p.id)}</td><td>${esc(p.texto)}</td><td>${esc(p.tipo)}</td><td>${esc(p.marca)}</td><td>${esc(p.familia)}</td><td>${esc(p.intencion)}</td><td>${esc(p.idioma)}</td><td>${p.activo?'Sí':'<span class="cero">No</span>'}</td><td><button class="mini" data-e="${esc(p.id)}">Editar</button></td></tr>`).join('')}</table></div></div>`}
+$('p_f').oninput=preguntas;
 function editar(p){p=p||{id:'',texto:'',tipo:'Categoría',marca:'',familia:'',intencion:'',idioma:'ES',activo:1};
- $('dlg_c').innerHTML=`<h2>${p.id?'Editar '+esc(p.id):'Nueva pregunta'}</h2><div class="grid2"><label class="f">ID${p.id?`<input id="e_id" value="${esc(p.id)}" disabled>`:'<input id="e_id" placeholder="p. ej. L06 o L06-EN">'}</label>
- <label class="f">Tipo<select id="e_tipo"><option ${p.tipo==='Categoría'?'selected':''}>Categoría</option><option ${p.tipo==='Marca'?'selected':''}>Marca</option></select></label>
- <label class="f">Marca<input id="e_marca" value="${esc(p.marca)}"></label><label class="f">Familia<input id="e_fam" value="${esc(p.familia)}"></label>
- <label class="f">Intención<input id="e_int" value="${esc(p.intencion)}"></label><label class="f">Idioma<select id="e_idi"><option ${p.idioma==='ES'?'selected':''}>ES</option><option ${p.idioma==='EN'?'selected':''}>EN</option></select></label>
- <label class="f">Activa<select id="e_act"><option value="1" ${p.activo?'selected':''}>Sí</option><option value="0" ${p.activo?'':'selected'}>No</option></select></label></div><br>
- <label class="f">Pregunta<textarea id="e_txt">${esc(p.texto)}</textarea></label><br><button class="primary" id="e_ok">Guardar</button> <span class="err" id="e_msg"></span>`;dlg.showModal();
- $('e_ok').onclick=async()=>{try{await api('/api/prompts',{method:'POST',body:JSON.stringify({id:$('e_id').value.trim(),texto:$('e_txt').value,tipo:$('e_tipo').value,marca:$('e_marca').value,familia:$('e_fam').value,intencion:$('e_int').value,idioma:$('e_idi').value,activo:$('e_act').value==='1'})});dlg.close();verPrompts()}catch(e){$('e_msg').textContent=e.message}}}
-$('p_new').onclick=()=>editar();$('p_c').onclick=e=>{const id=e.target.dataset.e;if(id)editar(PROMPTS.find(p=>p.id===id))};
-async function manual(){if(!PROMPTS.length)PROMPTS=(await api('/api/prompts')).prompts;
+ $('dlg_c').innerHTML=`<h2>${p.id?'Editar '+esc(p.id):'Nueva pregunta'}</h2><div class="rejilla"><label class="campo">ID<input type="text" id="e_id" value="${esc(p.id)}" ${p.id?'disabled':''} placeholder="p. ej. L06 o L06-EN"></label>
+ <label class="campo">Tipo<select id="e_tipo"><option ${p.tipo==='Categoría'?'selected':''}>Categoría</option><option ${p.tipo==='Marca'?'selected':''}>Marca</option></select></label>
+ <label class="campo">Marca<input type="text" id="e_marca" value="${esc(p.marca)}"></label><label class="campo">Familia<input type="text" id="e_fam" value="${esc(p.familia)}"></label>
+ <label class="campo">Intención<input type="text" id="e_int" value="${esc(p.intencion)}"></label><label class="campo">Idioma<select id="e_idi"><option ${p.idioma==='ES'?'selected':''}>ES</option><option ${p.idioma==='EN'?'selected':''}>EN</option></select></label>
+ <label class="campo">Activa<select id="e_act"><option value="1" ${p.activo?'selected':''}>Sí</option><option value="0" ${p.activo?'':'selected'}>No</option></select></label></div><br>
+ <label class="campo">Pregunta<textarea id="e_txt">${esc(p.texto)}</textarea></label><p><button class="boton prim" id="e_ok">Guardar</button> <span class="err" id="e_msg"></span></p>`;dlg.showModal();
+ $('e_ok').onclick=async()=>{try{await api('/api/prompts',{method:'POST',body:JSON.stringify({id:$('e_id').value.trim(),texto:$('e_txt').value,tipo:$('e_tipo').value,marca:$('e_marca').value,familia:$('e_fam').value,intencion:$('e_int').value,idioma:$('e_idi').value,activo:$('e_act').value==='1'})});dlg.close();preguntas()}catch(e){$('e_msg').textContent=e.message}}}
+$('p_new').onclick=()=>editar();$('p_c').onclick=e=>{const b=e.target.closest('[data-e]');if(b)editar(PROMPTS.find(p=>p.id===b.dataset.e))};
+
+/* ---------------- Manual ---------------- */
+async function manual(){PROMPTS=(await api('/api/prompts')).prompts.filter(p=>p.tipo!=='Libre');
  if(!$('m_fecha').value)$('m_fecha').value=new Date(Date.now()-6*3600e3).toISOString().slice(0,10);
- if(!$('m_motor').options.length)$('m_motor').innerHTML=Object.values(NOM).map(n=>`<option>${n}</option>`).join('');
+ if(!$('m_motor').options.length)$('m_motor').innerHTML=['copilot',...ORDEN.filter(m=>m!=='copilot')].map(m=>`<option>${N(m)}</option>`).join('');
  $('m_pid').innerHTML=PROMPTS.map(p=>`<option value="${esc(p.id)}">${esc(p.id)} · ${esc(p.texto.slice(0,70))}</option>`).join('');
- const l=await api('/api/manual/lista');$('m_lista').innerHTML=l.filas.length?`<div class="wrap"><table><tr><th>Fecha</th><th>Motor</th><th>ID</th><th class="n">Intento</th><th>Menciona</th><th class="n">Posición</th><th>Cita sitio</th><th>Notas</th><th></th></tr>${l.filas.map(r=>`<tr><td>${r.fecha.slice(0,10)}</td><td>${N(r.motor)}</td><td>${esc(r.prompt_id)}</td><td class="n">${r.intento}</td><td>${r.posible_confusion&&!r.menciona?'<span class="conf">confusión</span>':r.menciona?'<span class="si">Sí</span>':'<span class="no">No</span>'}</td><td class="n">${r.posicion||''}</td><td>${r.cita_sitio?'Sí':'No'}</td><td>${esc(r.notas||'')}</td><td><button class="pill" data-b="${r.id}">Borrar</button></td></tr>`).join('')}</table></div>`:vacio('Todavía no hay mediciones manuales.')}
+ const l=await api('/api/manual/lista');$('m_lista').innerHTML=l.filas.length?`<h3>Últimos registros manuales</h3><div class="caja"><div class="tabla"><table><tr><th>Fecha</th><th>Motor</th><th>ID</th><th class="n">Intento</th><th>Menciona</th><th class="n">Posición</th><th>Cita sitio</th><th>Notas</th><th></th></tr>${l.filas.map(r=>`<tr><td>${r.fecha.slice(0,10)}</td><td>${dot(r.motor)}${N(r.motor)}</td><td class="ids">${esc(r.prompt_id)}</td><td class="n">${r.intento}</td><td>${r.posible_confusion&&!r.menciona?'<span class="conf">confusión</span>':r.menciona?'<span class="si">Sí</span>':'<span class="no">No</span>'}</td><td class="n">${r.posicion||''}</td><td>${r.cita_sitio?'Sí':'No'}</td><td>${esc(r.notas||'')}</td><td><button class="mini" data-b="${r.id}">Borrar</button></td></tr>`).join('')}</table></div></div>`:vacio('Todavía no hay mediciones manuales.')}
 $('m_save').onclick=async()=>{try{await api('/api/manual',{method:'POST',body:JSON.stringify({fecha:$('m_fecha').value,motor:$('m_motor').value,prompt_id:$('m_pid').value,intento:$('m_int').value,menciona:$('m_men').value,posicion:$('m_pos').value,cita_sitio:$('m_cit').value,confusion:$('m_conf').value,competidores:$('m_comp').value,fuentes:$('m_fue').value,busquedas:$('m_bus').value,notas:$('m_not').value})});
  $('m_msg').textContent='Guardado.';['m_pos','m_comp','m_fue','m_bus','m_not'].forEach(i=>$(i).value='');manual();if(MET==='Manual')cargar()}catch(e){$('m_msg').textContent=e.message}};
-$('m_imp').onclick=async()=>{const f=$('m_csv').files[0];if(!f)return;try{const r=await api('/api/manual/importar',{method:'POST',csv:true,headers:{'Content-Type':'text/csv'},body:await f.text()});
+$('m_imp').onclick=async()=>{const f=$('m_csv').files[0];if(!f)return;try{const r=await api('/api/manual/importar',{method:'POST',csv:true,body:await f.text()});
  $('m_impmsg').textContent=`${r.importadas} fila(s) importadas.`+(r.avisos.length?` ${r.avisos.length} aviso(s): ${r.avisos.slice(0,3).join(' · ')}`:'');manual();if(MET==='Manual')cargar()}catch(e){$('m_impmsg').textContent=e.message}};
-$('m_lista').onclick=async e=>{const id=e.target.dataset.b;if(!id||!confirm('¿Borrar este registro manual?'))return;await api('/api/manual/borrar',{method:'POST',body:JSON.stringify({id:+id})});manual();if(MET==='Manual')cargar()};
-pintarNav();cargar();
+$('m_lista').onclick=async e=>{const b=e.target.closest('[data-b]');if(!b||!confirm('¿Borrar este registro manual?'))return;await api('/api/manual/borrar',{method:'POST',body:JSON.stringify({id:+b.dataset.b})});manual();if(MET==='Manual')cargar()};
+
+nav();cargar();api('/api/estado').then(e=>{CORRIENDO=e.corriendo;nav();if(CORRIENDO)estado()});
 </script></body></html>

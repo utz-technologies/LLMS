@@ -57,6 +57,9 @@ Presiona **Deploy**. Cuando el DNS propague, entra a https://ia.dicema.com.gt co
 
 ---
 
+## Logo
+El panel muestra el logo del sitio de Dicema. Para dejarlo fijo dentro de la app (recomendado antes de cambiar de sitio web), copia el archivo en `web/logo.png` y el ícono cuadrado en `web/icono.png`, súbelos al repositorio y vuelve a desplegar. También puedes usar las variables `LOGO_URL` e `ICONO_URL` con la dirección de cada imagen.
+
 ## Primer uso
 
 1. **Importar la línea base manual.** En la hoja "Medición IA Dicema", pestaña Registro, descárgala como CSV. En el panel: **Medición manual → Importar**. Quedan las 62 respuestas de ChatGPT y Perplexity del 13 de noviembre.

@@ -200,6 +200,15 @@ class Manejador(BaseHTTPRequestHandler):
         q = {k: v[0] for k, v in parse_qs(u.query).items()}
         if u.path == "/salud":
             return self._enviar(200, {"ok": True})
+        if u.path in ("/logo", "/favicon.ico", "/icono"):
+            # Si existe web/logo.png (o web/icono.png) se sirve; si no, se usa el del sitio de Dicema.
+            archivo = BASE / "web" / ("logo.png" if u.path == "/logo" else "icono.png")
+            if archivo.exists():
+                return self._enviar(200, archivo.read_bytes(), "image/png", {"Cache-Control": "max-age=86400"})
+            destino = os.environ.get("LOGO_URL" if u.path == "/logo" else "ICONO_URL") or (
+                "https://www.dicema.com.gt/wp-content/themes/dicema/img/header/logo.png" if u.path == "/logo" else
+                "https://www.dicema.com.gt/wp-content/uploads/2020/05/cropped-logo_rojo-270x270.png")
+            return self._redir(destino)
         if u.path == "/login":
             return self._enviar(200, self._pagina("login.html"), "text/html; charset=utf-8")
         if u.path == "/salir":
@@ -234,6 +243,18 @@ class Manejador(BaseHTTPRequestHandler):
                                 JOIN corridas c ON c.id=r.corrida_id WHERE c.metodo='Manual'
                                 ORDER BY r.fecha DESC, r.id DESC LIMIT 300""")
                 return self._enviar(200, {"filas": filas})
+            if u.path == "/api/fanouts.csv":
+                r = panel_datos.resumen(bd, q.get("metodo", "API"))
+                buf = io.StringIO()
+                w = csv.writer(buf)
+                w.writerow(["Búsqueda interna", "Veces", "Motores", "Preguntas", "Con Dicema", "Cita dicema.com.gt",
+                            "Hueco (2+ motores y nunca Dicema)"])
+                for f in r.get("fanouts", []):
+                    w.writerow([f["b"], f["veces"], ", ".join(NOMBRES.get(m, m) for m in f["motores"]),
+                                " ".join(f["prompts"]), f["con"], f["cita"],
+                                "Sí" if len(f["motores"]) >= 2 and not f["con"] else ""])
+                return self._enviar(200, "\ufeff" + buf.getvalue(), "text/csv; charset=utf-8",
+                                    {"Content-Disposition": 'attachment; filename="fanouts_dicema.csv"'})
             if u.path == "/api/exportar":
                 cid = int(q["corrida"])
                 return self._enviar(200, registro_csv(cid), "text/csv; charset=utf-8",
@@ -266,7 +287,8 @@ class Manejador(BaseHTTPRequestHandler):
             d = json.loads(self._cuerpo() or "{}")
             if u.path == "/api/correr":
                 cid, err = corre.iniciar(d.get("prompts") or None, d.get("motores") or None,
-                                         d.get("repeticiones", 1), "botón", (d.get("nota") or "")[:200])
+                                         d.get("repeticiones", 1), "botón", (d.get("nota") or "")[:200],
+                                         libre=d.get("libre") or "")
                 return self._enviar(409 if err else 200, {"error": err} if err else {"corrida": cid})
             if u.path == "/api/prompts":
                 pid = re.sub(r"[^A-Za-z0-9\-_]", "", str(d.get("id", "")))[:20]

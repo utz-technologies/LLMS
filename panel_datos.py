@@ -10,7 +10,7 @@ def _pct(a, b):
 
 def metricas(filas):
     validas = [r for r in filas if not r["error"]]
-    cat = [r for r in validas if r["tipo"] != "Marca"]
+    cat = [r for r in validas if r["tipo"] == "Categoría"]
     mar = [r for r in validas if r["tipo"] == "Marca"]
     con = [r for r in validas if r["menciona"]]
     pos = [r["posicion"] for r in cat if r["menciona"] and r["posicion"]]
@@ -24,6 +24,41 @@ def metricas(filas):
         "confusiones": sum(r["posible_confusion"] for r in validas),
         "errores": len(filas) - len(validas),
     }
+
+
+TIPOS = ["propia", "fabricante", "competidor", "tienda en línea", "directorio y redes", "otra"]
+_FABRICANTES = ("3m.", "3m-", "sherwin", "henkel", "loctite", "permatex", "sagola", "perfect")
+_TIENDAS = ("pacifiko", "ubuy", "amazon", "mercadolibre", "desertcart", "ebay", "walmart")
+_DIRECTORIOS = ("google", "maps", "facebook", "instagram", "linkedin", "tiktok", "youtube", "reddit", "directorio",
+                "paginasamarillas", "yelp", "findglocal", "sociedad", "guatemala.", "wikipedia", "x.com", "twitter")
+_COMP = None
+
+
+def _slug(s):
+    import unicodedata
+    s = "".join(c for c in unicodedata.normalize("NFD", s or "") if unicodedata.category(c) != "Mn").lower()
+    return "".join(c for c in s if c.isalnum())
+
+
+def tipo_fuente(d):
+    global _COMP
+    if _COMP is None:
+        from pathlib import Path
+        cfg = json.loads((Path(__file__).resolve().parent / "config.json").read_text(encoding="utf-8"))
+        _COMP = [s for s in (_slug(c) for c in cfg["competidores"]) if len(s) >= 4]
+    d = (d or "").lower()
+    plano = _slug(d)
+    if "dicema.com.gt" in d:
+        return "propia"
+    if any(f in d for f in _FABRICANTES):
+        return "fabricante"
+    if any(c in plano for c in _COMP):
+        return "competidor"
+    if any(t in d for t in _TIENDAS):
+        return "tienda en línea"
+    if any(t in d for t in _DIRECTORIOS):
+        return "directorio y redes"
+    return "otra"
 
 
 def _celda(r):
@@ -59,6 +94,8 @@ def resumen(bd, metodo="API"):
     pulso = []
     for c in corridas:
         fs = por[c["id"]]
+        if not any(r["tipo"] in ("Categoría", "Marca") for r in fs):
+            continue  # corridas de pura pregunta libre no cuentan en el pulso
         pulso.append({"corrida": c["id"], "inicio": c["inicio"], "origen": c["origen"], "nota": c["nota"],
                       "todos": metricas(fs),
                       "motores": {m: metricas([r for r in fs if r["motor"] == m]) for m in motores
@@ -67,7 +104,7 @@ def resumen(bd, metodo="API"):
     fan = defaultdict(lambda: {"veces": 0, "motores": set(), "prompts": set(), "con": 0, "cita": 0})
     for f in bd.q(f"""SELECT lower(trim(f.busqueda)) b, f.motor, f.prompt_id, r.menciona, r.cita_sitio
                       FROM fanouts f JOIN respuestas r ON r.id=f.respuesta_id
-                      WHERE f.corrida_id IN ({marcas})""", ids):
+                      WHERE f.corrida_id IN ({marcas}) AND r.tipo != 'Libre'""", ids):
         x = fan[f["b"]]
         x["veces"] += 1
         x["motores"].add(f["motor"])
@@ -78,7 +115,7 @@ def resumen(bd, metodo="API"):
                        "con": v["con"], "cita": v["cita"]} for b, v in fan.items()),
                      key=lambda x: (-len(x["motores"]), -x["veces"]))
 
-    cat = [r for r in filas if r["tipo"] != "Marca" and not r["error"]]
+    cat = [r for r in filas if r["tipo"] == "Categoría" and not r["error"]]
     empresas, dominios, con_d, sin_d = Counter(), Counter(), Counter(), Counter()
     for r in cat:
         for c in json.loads(r["competidores"] or "[]"):
@@ -88,8 +125,13 @@ def resumen(bd, metodo="API"):
         (con_d if r["menciona"] else sin_d).update(ds)
     empresas["Dicema"] = sum(r["menciona"] for r in cat)
     n_con = sum(1 for r in cat if r["menciona"])
-    brujula = sorted(({"d": d, "con": con_d[d], "sin": sin_d[d]} for d in set(con_d) | set(sin_d)),
-                     key=lambda x: -(x["con"] + x["sin"]))[:80]
+    brujula = sorted(({"d": d, "con": con_d[d], "sin": sin_d[d], "tipo": tipo_fuente(d)} for d in set(con_d) | set(sin_d)),
+                     key=lambda x: -(x["con"] + x["sin"]))[:120]
+    # Qué tipo de fuente leyó la IA cuando sí recomendó a Dicema.
+    tipos_con = Counter()
+    for r in cat:
+        if r["menciona"]:
+            tipos_con.update({tipo_fuente(d) for d in json.loads(r["dominios"] or "[]")})
 
     return {
         "metodo": metodo, "vacio": False, "motores": motores, "ultima": ultima,
@@ -98,6 +140,8 @@ def resumen(bd, metodo="API"):
         "pulso": pulso, "fanouts": fanouts[:2000],
         "empresas": empresas.most_common(30), "dominios": dominios.most_common(30),
         "brujula": brujula, "n_con": n_con, "n_sin": len(cat) - n_con,
+        "tipos_con": {t: _pct(tipos_con[t], n_con) for t in TIPOS},
+        "n_respuestas": len(filas),
     }
 
 

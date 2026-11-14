@@ -44,7 +44,8 @@ class Corredor:
         self.bd = bd
         self.simular = os.environ.get("SIMULAR", "").lower() in ("1", "true", "si", "sí")
         self.candado = threading.Lock()
-        self.estado = {"corriendo": False, "corrida": None, "hechas": 0, "total": 0, "log": [], "inicio": None}
+        self.estado = {"corriendo": False, "corrida": None, "hechas": 0, "total": 0, "log": [], "inicio": None,
+                       "motores": [], "vivo": {}}
 
     # -------------------------------------------------------------- motores disponibles
     def motores_disponibles(self):
@@ -61,13 +62,20 @@ class Corredor:
         self.estado["log"] = self.estado["log"][-400:]
 
     # -------------------------------------------------------------- corrida
-    def iniciar(self, ids_prompts=None, ids_motores=None, repeticiones=1, origen="botón", nota=""):
+    def iniciar(self, ids_prompts=None, ids_motores=None, repeticiones=1, origen="botón", nota="", libre=""):
         if not self.candado.acquire(blocking=False):
             return None, "Ya hay una corrida en curso."
         try:
             cfg = cargar_config()
             prompts = self.bd.prompts(solo_activos=not ids_prompts)
-            if ids_prompts:
+            libre = (libre or "").strip()[:500]
+            if libre:
+                # Pregunta libre: se guarda aparte (tipo "Libre") y no entra en las métricas.
+                pid = "LIBRE-" + ahora().replace("-", "").replace(":", "").replace("T", "")[2:12]
+                self.bd.guardar_prompt({"id": pid, "texto": libre, "tipo": "Libre", "marca": "", "familia": "",
+                                        "intencion": "Pregunta libre", "idioma": "ES", "activo": 0})
+                prompts = [p for p in self.bd.prompts() if p["id"] == pid]
+            elif ids_prompts:
                 pedidos = set(ids_prompts)
                 prompts = [p for p in prompts if p["id"] in pedidos]
             disponibles = {m["id"]: m for m in self.motores_disponibles()}
@@ -81,7 +89,8 @@ class Corredor:
             origen = "simulación" if self.simular else origen
             cid = self.bd.nueva_corrida(ahora(), "API", origen, nota, total)
             self.estado.update({"corriendo": True, "corrida": cid, "hechas": 0, "total": total, "log": [],
-                                "inicio": ahora()})
+                                "inicio": ahora(), "motores": ms,
+                                "vivo": {m: {"estado": "en espera", "actual": "", "items": []} for m in ms}})
             self._log(f"Corrida {cid}: {len(prompts)} pregunta(s) × {len(ms)} motor(es) × {repeticiones}")
             hilo = threading.Thread(target=self._correr, args=(cid, cfg, prompts, ms, repeticiones), daemon=True)
             hilo.start()
@@ -98,6 +107,8 @@ class Corredor:
             for h in hilos:
                 h.join()
             self.bd.cerrar_corrida(cid, ahora())
+            for v in self.estado.get("vivo", {}).values():
+                v.update({"estado": "listo", "actual": ""})
             self._log(f"Corrida {cid} terminada.")
         finally:
             self.estado["corriendo"] = False
@@ -107,17 +118,25 @@ class Corredor:
         mcfg = cfg["motores"][m]
         clave = os.environ.get(mcfg["variable_clave"], "")
         funcion = _simulado(m) if self.simular else motores.MOTORES[m]
+        vivo = self.estado["vivo"][m]
         for p in prompts:
             for intento in range(1, repeticiones + 1):
+                vivo.update({"estado": "pensando", "actual": p["id"]})
                 error, resp, an = "", {"texto": "", "busquedas": [], "fuentes": [], "citas": [], "modelo": ""}, {}
                 try:
                     resp = funcion(p["texto"], mcfg, clave, cfg["ubicacion"], cfg["tiempo_maximo_por_pregunta_segundos"])
                     an = analisis.analizar(resp, cfg["marca"], cfg["competidores"])
                 except Exception as e:  # noqa: BLE001 (se registra y se sigue)
                     error = str(e)[:500]
-                self.bd.guardar_respuesta(cid, ahora(), m, p, intento, resp, an, error=error,
-                                          notas="", crudo=resp.get("crudo"))
+                rid = self.bd.guardar_respuesta(cid, ahora(), m, p, intento, resp, an, error=error,
+                                                notas="", crudo=resp.get("crudo"))
                 self.estado["hechas"] += 1
+                celda = ("error" if error else "confusión" if an.get("posible_confusion") and not an.get("menciona")
+                         else (f"#{an['posicion']}" if an.get("posicion") else "Sí") if an.get("menciona") else "No")
+                vivo["items"].append({"rid": rid, "pid": p["id"], "intento": intento, "v": celda,
+                                      "texto": (resp.get("texto") or "")[:1500], "busquedas": resp.get("busquedas", [])[:8],
+                                      "error": error[:200]})
+                vivo["items"] = vivo["items"][-60:]
                 if error:
                     self._log(f"{motores.NOMBRES[m]} · {p['id']} · ERROR {error[:120]}")
                 else:
