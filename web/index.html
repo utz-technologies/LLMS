@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#ffffff;--panel:#f4f4f2;--card:#ffffff;--ink:#1f1f1f;--muted:#74746f;--faint:#a3a39d;--line:#e7e6e1;--soft:#f7f7f5;
- --rojo:#c8102e;--rojo-suave:#fbecee;--verde:#2e8b57;--verde-suave:#e9f5ee;--ambar:#b7791f;
+ --rojo:#e0222b;--rojo-suave:#fdecec;--verde:#2e8b57;--verde-suave:#e9f5ee;--ambar:#b7791f;
  --chatgpt:#3b6fd8;--gemini:#e2683c;--perplexity:#3aa676;--grok:#e0a43a;--claude:#d9779f;--copilot:#8a6bd1}
 @media (prefers-color-scheme:dark){:root{--bg:#141414;--panel:#1d1d1c;--card:#1b1b1a;--ink:#efefec;--muted:#a9a9a3;--faint:#7c7c76;--line:#2f2f2c;--soft:#222220;
- --rojo:#ef5b6e;--rojo-suave:#3a1c21;--verde:#5cc08a;--verde-suave:#1b3125}}
+ --rojo:#f0474f;--rojo-suave:#3a1c21;--verde:#5cc08a;--verde-suave:#1b3125}}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Montserrat,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 a{color:inherit}button,input,select,textarea{font:inherit;color:inherit}
@@ -116,7 +116,7 @@ dialog::backdrop{background:rgba(20,20,20,.45)}
  .marca .lema{display:none}.tarjeta .num{font-size:38px}.meta{grid-template-columns:1fr 1fr}.meta>div{border-right:0;border-bottom:1px solid var(--line)}.meta .v{font-size:32px}.buscar{min-width:0;flex:1}.enlace{margin-left:0}}
 </style></head><body>
 <header class="cab">
- <div class="marca"><img src="/logo" alt="Dicema" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="txt">DICEMA</span><span class="lema">Qué responden las IAs sobre Dicema</span></div>
+ <div class="marca"><picture><source srcset="/logo-blanco" media="(prefers-color-scheme: dark)"><img src="/logo" alt="Dicema" onerror="this.parentNode.style.display='none';this.parentNode.nextElementSibling.style.display='block'"></picture><span class="txt">DICEMA</span><span class="lema">Qué responden las IAs sobre Dicema</span></div>
  <nav class="nav" id="nav"></nav>
 </header>
 <div class="sub">

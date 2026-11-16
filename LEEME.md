@@ -58,7 +58,7 @@ Presiona **Deploy**. Cuando el DNS propague, entra a https://ia.dicema.com.gt co
 ---
 
 ## Logo
-El panel muestra el logo del sitio de Dicema. Para dejarlo fijo dentro de la app (recomendado antes de cambiar de sitio web), copia el archivo en `web/logo.png` y el ícono cuadrado en `web/icono.png`, súbelos al repositorio y vuelve a desplegar. También puedes usar las variables `LOGO_URL` e `ICONO_URL` con la dirección de cada imagen.
+Los logos oficiales ya están dentro de la app: `web/logo.png` (rojo, modo claro), `web/logo-blanco.png` (modo oscuro) y `web/icono.png` (ícono de la pestaña). El rojo de marca es **#E0222B**. Para cambiarlos, reemplaza esos archivos, súbelos al repositorio y vuelve a desplegar.
 
 ## Primer uso
 

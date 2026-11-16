@@ -200,13 +200,13 @@ class Manejador(BaseHTTPRequestHandler):
         q = {k: v[0] for k, v in parse_qs(u.query).items()}
         if u.path == "/salud":
             return self._enviar(200, {"ok": True})
-        if u.path in ("/logo", "/favicon.ico", "/icono"):
-            # Si existe web/logo.png (o web/icono.png) se sirve; si no, se usa el del sitio de Dicema.
-            archivo = BASE / "web" / ("logo.png" if u.path == "/logo" else "icono.png")
+        if u.path in ("/logo", "/logo-blanco", "/favicon.ico", "/icono"):
+            # Logos oficiales de Dicema guardados en web/; si faltan, se usa el del sitio de Dicema.
+            archivo = BASE / "web" / {"/logo": "logo.png", "/logo-blanco": "logo-blanco.png"}.get(u.path, "icono.png")
             if archivo.exists():
                 return self._enviar(200, archivo.read_bytes(), "image/png", {"Cache-Control": "max-age=86400"})
-            destino = os.environ.get("LOGO_URL" if u.path == "/logo" else "ICONO_URL") or (
-                "https://www.dicema.com.gt/wp-content/themes/dicema/img/header/logo.png" if u.path == "/logo" else
+            destino = os.environ.get("LOGO_URL" if u.path.startswith("/logo") else "ICONO_URL") or (
+                "https://www.dicema.com.gt/wp-content/themes/dicema/img/header/logo.png" if u.path.startswith("/logo") else
                 "https://www.dicema.com.gt/wp-content/uploads/2020/05/cropped-logo_rojo-270x270.png")
             return self._redir(destino)
         if u.path == "/login":

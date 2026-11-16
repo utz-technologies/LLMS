@@ -5,8 +5,8 @@
 <link rel="icon" href="/icono">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f4f4f2;--card:#fff;--ink:#1f1f1f;--muted:#74746f;--line:#e7e6e1;--rojo:#c8102e}
-@media (prefers-color-scheme:dark){:root{--bg:#141414;--card:#1b1b1a;--ink:#efefec;--muted:#a9a9a3;--line:#2f2f2c;--rojo:#ef5b6e}}
+:root{--bg:#f4f4f2;--card:#fff;--ink:#1f1f1f;--muted:#74746f;--line:#e7e6e1;--rojo:#e0222b}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--card:#1b1b1a;--ink:#efefec;--muted:#a9a9a3;--line:#2f2f2c;--rojo:#f0474f}}
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:15px/1.5 Montserrat,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px 30px;width:min(380px,calc(100vw - 32px));border-top:4px solid var(--rojo)}
 .logo{height:42px;display:block;margin-bottom:14px}.txt{display:none;font-weight:700;letter-spacing:.06em;color:var(--rojo);font-size:24px;margin-bottom:10px}
@@ -16,7 +16,7 @@ button{margin-top:14px;width:100%;padding:12px;border:0;border-radius:12px;backg
 .err{color:var(--rojo);font-size:13px;margin-top:12px;display:none}
 </style></head><body>
 <form method="post" action="/login">
-<img class="logo" src="/logo" alt="Dicema" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="txt">DICEMA</div>
+<picture><source srcset="/logo-blanco" media="(prefers-color-scheme: dark)"><img class="logo" src="/logo" alt="Dicema" onerror="this.parentNode.style.display='none';this.parentNode.nextElementSibling.style.display='block'"></picture><div class="txt">DICEMA</div>
 <h1>Qué responden las IAs sobre Dicema</h1><p>Panel privado de visibilidad en ChatGPT, Gemini, Perplexity, Grok y Claude.</p>
 <input type="password" name="clave" placeholder="Contraseña" autocomplete="current-password" autofocus required>
 <button type="submit">Entrar</button>
